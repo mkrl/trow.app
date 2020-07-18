@@ -7,28 +7,27 @@ import RoomComponent, {
 } from '../views/room/RoomComponent'
 import { APP_VIEW_INDEX, APP_VIEW_ROOM } from '../constants/appViewConstants'
 
-interface ViewMapInterface {
-    [key: string]: ComponentType<
-        IndexComponentInterface & RoomComponentInterface
-    >
-}
 interface ViewMapperInterface {
     activeView: string
 }
 
-type CommonViewType = ViewMapperInterface &
-    RoomComponentInterface &
-    IndexComponentInterface
+type CommonViewType = RoomComponentInterface & IndexComponentInterface
+
+type UnitedViewType = ViewMapperInterface & CommonViewType
+
+interface ViewMapInterface {
+    [key: string]: ComponentType<CommonViewType>
+}
 
 const VIEW_MAP: ViewMapInterface = {
     [APP_VIEW_INDEX]: IndexComponent,
     [APP_VIEW_ROOM]: RoomComponent,
 }
 
-const ViewMapperContainer: FunctionalComponent<CommonViewType> = ({
+const ViewMapperContainer: FunctionalComponent<UnitedViewType> = ({
     activeView,
     ...props
-}: CommonViewType) => {
+}: UnitedViewType) => {
     const Component = VIEW_MAP[activeView]
     return <Component {...props} />
 }
