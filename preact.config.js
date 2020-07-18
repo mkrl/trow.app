@@ -26,8 +26,6 @@ export default {
             'src',
             'index'
         )
-        config.plugins.push(
-            new helpers.webpack.EnvironmentPlugin(['NODE_ENV', '__DEV__'])
-        )
+        config.plugins.push(new helpers.webpack.EnvironmentPlugin(['NODE_ENV']))
     },
 }

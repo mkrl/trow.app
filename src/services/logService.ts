@@ -4,7 +4,7 @@ import { Console } from 'console'
 type CallbackTypes = Console['log'] | Console['warn'] | Console['error']
 
 const baseLog = (callback: CallbackTypes, ...args: any[]): void => {
-    callback(...args)
+    if (process.env.NODE_ENV === 'development') callback(...args)
 }
 
 export default {
