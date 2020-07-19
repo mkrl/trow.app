@@ -1,6 +1,7 @@
 import { FunctionalComponent, h } from 'preact'
 import Header from './header/HeaderComponent'
-import Home from '../views/home/HomeComponent'
+import Home from '../views/home/HomeContainer'
+import LayoutComponent from './layout/LayoutComponent'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 if ((module as any).hot) {
@@ -10,10 +11,9 @@ if ((module as any).hot) {
 
 const App: FunctionalComponent = () => {
     return (
-        <div id="app">
-            <Header />
+        <LayoutComponent HeaderComponent={Header}>
             <Home />
-        </div>
+        </LayoutComponent>
     )
 }
 

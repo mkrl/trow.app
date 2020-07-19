@@ -1,3 +1,25 @@
+/* Variables */
+:root {
+	/* Colors */
+	--color-brand: #6C04EC;
+	--color-light-1: #F8F8F8;
+	--color-light-2: #EDEDED;
+	--color-light-3: #DADADA;
+	--color-dark-1: #333333;
+	--color-dark-2: #555555;
+	--color-dark-3: #777777;
+
+	/* Font sizes */
+	--base-font-size: 16px;
+	--sm-font-size: 14px;
+	--l-font-size: 18px;
+	--xl-font-size: 24px;
+
+	/* Border radius */
+	--base-border-radius: 17px;
+}
+
+
 html, body {
 	height: 100%;
 	width: 100%;
@@ -6,15 +28,12 @@ html, body {
 	background: #FAFAFA;
 	font-family: 'Helvetica Neue', arial, sans-serif;
 	font-weight: 400;
-	color: #444;
+	font-size: var(--base-font-size);
+	color: 	var(--color-dark-1);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
 * {
 	box-sizing: border-box;
-}
-
-#app {
-	height: 100%;
 }

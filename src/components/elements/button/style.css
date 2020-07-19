@@ -1,0 +1,33 @@
+.button {
+    border-radius: var(--base-border-radius);
+    cursor: pointer;
+    background-color: var(--color-brand);
+    color: var(--color-light-1);
+    font-weight: bold;
+    border: 0;
+}
+
+.button:hover {
+    box-shadow: var(--color-brand) 0 0 0 2px;
+}
+
+.block {
+    width: 100%;
+}
+
+.button.sm {
+    font-size: var(--sm-font-size);
+}
+
+.button.md {
+    font-size: var(--base-font-size);
+    padding: 10px 16px;
+}
+
+.button.l {
+    font-size: var(--l-font-size);
+}
+
+.button.xl {
+    font-size: var(--xl-font-size);
+}

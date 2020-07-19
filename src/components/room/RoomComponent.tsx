@@ -1,4 +1,5 @@
 import { h, FunctionalComponent, Fragment } from 'preact'
+import InputElement from '../elements/input/InputElement'
 
 export interface RoomComponentInterface {
     isHost: boolean
@@ -14,7 +15,7 @@ const RoomComponent: FunctionalComponent<RoomComponentInterface> = ({
             <p>You are the host. Feel free to share the link to your room.</p>
         )}
         {isHost && (
-            <input
+            <InputElement
                 type="text"
                 readOnly
                 value={`${window.location.origin}/?${peerId}`}

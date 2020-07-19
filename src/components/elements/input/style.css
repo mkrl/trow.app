@@ -1,0 +1,13 @@
+.input {
+    padding: 10px 16px;
+    margin: 0;
+    border-width: 1px;
+    border-radius: var(--base-border-radius);
+    font-size: var(--base-font-size);
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.33);
+}
+
+.block {
+    width: 100%;
+}

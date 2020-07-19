@@ -1,10 +1,10 @@
 import { FunctionalComponent, h, ComponentType } from 'preact'
 import IndexComponent, {
     IndexComponentInterface,
-} from '../views/index/IndexComponent'
+} from '../components/index/IndexComponent'
 import RoomComponent, {
     RoomComponentInterface,
-} from '../views/room/RoomComponent'
+} from '../components/room/RoomComponent'
 import { APP_VIEW_INDEX, APP_VIEW_ROOM } from '../constants/appViewConstants'
 
 interface ViewMapperInterface {
