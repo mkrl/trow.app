@@ -37,6 +37,5 @@ export const onConnectSlave = (conn: Peer.DataConnection): void => {
     })
     conn.on('open', () => {
         logService.log('Connected to host ', conn.peer)
-        slavePeerIdentity.setName(String(prompt('Enter your name')))
     })
 }

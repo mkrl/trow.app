@@ -13,6 +13,7 @@ interface CreateRoomInterface {
 
 interface JoinRoomInterface {
     roomId: string
+    name: string
     callback: (id: string) => void
 }
 
@@ -20,22 +21,27 @@ export const createRoom = ({ name, callback }: CreateRoomInterface): void => {
     const peer = new Peer({ ...peerConfig })
     peer.on('open', (id: string) => {
         logService.log('Connected with id ', id)
-        callback(id)
         masterPeerIdentity.setPeerId(id)
         masterPeerIdentity.setName(name)
         masterPeerIdentity.setPeerRef(peer)
+        callback(id)
     })
     peer.on('connection', onConnectMaster)
     // window.peer = peer
 }
 
-export const joinRoom = ({ roomId, callback }: JoinRoomInterface): void => {
+export const joinRoom = ({
+    roomId,
+    name,
+    callback,
+}: JoinRoomInterface): void => {
     const peer = new Peer({ ...peerConfig })
     peer.on('open', (id: string) => {
         logService.log('Connected with id ', id)
         const conn = peer.connect(roomId)
-        callback(id)
         slavePeerIdentity.setPeerId(id)
+        slavePeerIdentity.setName(name)
+        callback(id)
         onConnectSlave(conn)
         // window.peer = peer
         // window.conn = conn
