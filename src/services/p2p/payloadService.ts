@@ -1,16 +1,29 @@
 import {
     PAYLOAD_HANDSHAKE_REQUEST,
     PAYLOAD_HANDSHAKE_RESPONSE,
+    PAYLOAD_STATE_BROADCAST,
 } from '../../constants/p2pPayloadConstants'
 import logService from '../logService'
 import Peer from 'peerjs'
+import { ConnectionInterface } from './p2pMasterService'
+
+interface P2PStateUserInterface {
+    name: string
+    voteRating: number
+}
+
+export interface P2PStateInterface {
+    users: Array<P2PStateUserInterface>
+    votingStarted: boolean
+    resultingScore: number | null
+}
 
 type PayloadFields = 'name' | 'peerId'
 
-export type PayloadContent = Record<PayloadFields, string>
+export type PayloadContent = Record<PayloadFields, string> & P2PStateInterface
 
 export interface PayloadInterface {
-    type: typeof PAYLOAD_HANDSHAKE_REQUEST & typeof PAYLOAD_HANDSHAKE_RESPONSE
+    type: string
     payload: PayloadContent
 }
 
@@ -19,6 +32,11 @@ interface SendHandshakeInterface {
     name: string
     peerId: string
     isHost?: boolean
+}
+interface BroadcastInterface {
+    peer: Peer
+    connections: Array<ConnectionInterface>
+    data: P2PStateInterface
 }
 
 export const sendHandshake = ({
@@ -34,5 +52,18 @@ export const sendHandshake = ({
             name,
             peerId,
         },
+    })
+}
+
+export const broadcastData = ({
+    peer,
+    connections,
+    data,
+}: BroadcastInterface): void => {
+    connections.map(item => {
+        peer.connections[item.peerId][0].send({
+            type: PAYLOAD_STATE_BROADCAST,
+            payload: data,
+        })
     })
 }

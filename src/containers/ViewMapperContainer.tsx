@@ -2,9 +2,6 @@ import { FunctionalComponent, h, ComponentType } from 'preact'
 import IndexComponent, {
     IndexComponentInterface,
 } from '../components/index/IndexComponent'
-import RoomComponent, {
-    RoomComponentInterface,
-} from '../components/room/RoomComponent'
 import {
     APP_VIEW_INDEX,
     APP_VIEW_NAME_PROMPT,
@@ -13,12 +10,13 @@ import {
 import NamePromptContainer, {
     NamePromptContainerInterface,
 } from '../views/namePrompt/NamePromptContainer'
+import RoomContainer, { RoomContainerType } from '../views/room/RoomContainer'
 
 interface ViewMapperInterface {
     activeView: string
 }
 
-type CommonViewType = RoomComponentInterface &
+type CommonViewType = RoomContainerType &
     IndexComponentInterface &
     NamePromptContainerInterface
 
@@ -30,7 +28,7 @@ interface ViewMapInterface {
 
 const VIEW_MAP: ViewMapInterface = {
     [APP_VIEW_INDEX]: IndexComponent,
-    [APP_VIEW_ROOM]: RoomComponent,
+    [APP_VIEW_ROOM]: RoomContainer,
     [APP_VIEW_NAME_PROMPT]: NamePromptContainer,
 }
 

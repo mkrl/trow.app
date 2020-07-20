@@ -1,4 +1,5 @@
 import {
+    broadcastData,
     PayloadContent,
     PayloadInterface,
     sendHandshake,
@@ -8,7 +9,7 @@ import { PAYLOAD_HANDSHAKE_RESPONSE } from '../../constants/p2pPayloadConstants'
 import masterPeerIdentity from './identity/masterPeerIdentity'
 import Peer from 'peerjs'
 
-interface ConnectionInterface {
+export interface ConnectionInterface {
     name: string
     peerId: string
 }
@@ -29,6 +30,18 @@ const MASTER_ACTION_MAP: ActionMapInterface = {
         ) {
             connections.push(payload)
             names.push(payload.name)
+            broadcastData({
+                peer: masterPeerIdentity.getPeerRef(),
+                connections,
+                data: {
+                    users: connections.map(a => ({
+                        name: a.name,
+                        voteRating: 0,
+                    })),
+                    votingStarted: false,
+                    resultingScore: null,
+                },
+            })
         } else {
             logService.error('Name is already in use or no name supplied')
         }
