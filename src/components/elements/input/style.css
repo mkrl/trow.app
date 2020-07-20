@@ -8,6 +8,11 @@
     border-color: rgba(0, 0, 0, 0.33);
 }
 
+.input:focus {
+    outline: none;
+    box-shadow: 0 0 10px 0 var(--color-accent);
+}
+
 .block {
     width: 100%;
 }

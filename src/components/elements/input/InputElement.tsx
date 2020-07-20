@@ -6,11 +6,12 @@ interface InputInterface {
     value: string
     type: 'text' | 'number'
     isBlock?: boolean
-    onChange?: () => void
+    onChange?: (text: string) => void
     readOnly?: boolean
     placeholder?: string
 }
 
+// https://github.com/preactjs/preact/issues/1930
 const InputElement: FunctionalComponent<InputInterface> = ({
     value,
     onChange,
@@ -24,7 +25,9 @@ const InputElement: FunctionalComponent<InputInterface> = ({
         type={type}
         value={value}
         readOnly={readOnly}
-        onChange={onChange}
+        onKeyUp={(e): void =>
+            onChange && onChange((e.target as HTMLInputElement).value)
+        }
         placeholder={placeholder}
     />
 )

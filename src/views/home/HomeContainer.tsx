@@ -8,10 +8,15 @@ const HomeContainer: FunctionalComponent = () => {
     const roomId = window.location.search.slice(1)
     const [peerId, setPeerId] = useState<string>('')
     const [activeView, setActiveView] = useState<string>(APP_VIEW_INDEX)
-    const [isHost, setIsHost] = useState(true)
+    const [isHost, setIsHost] = useState<boolean>(true)
+    const [userName, setUserName] = useState<string>('')
+    const [hasNamePrompt, setHasNamePrompt] = useState<boolean>(false)
+    const onBeginClick = (): void => {
+        setHasNamePrompt(true)
+    }
     const onCreateRoom = (): void => {
         createRoom({
-            name: String(prompt('Enter your name')),
+            name: userName,
             callback: (id: string) => {
                 setPeerId(id)
                 setActiveView(APP_VIEW_ROOM)
@@ -33,8 +38,12 @@ const HomeContainer: FunctionalComponent = () => {
     return (
         <ViewMapperContainer
             activeView={activeView}
-            onHostClick={onCreateRoom}
+            onHostClick={onBeginClick}
+            onNameSubmit={onCreateRoom}
             isHost={isHost}
+            isNamePromptOpen={hasNamePrompt}
+            username={userName}
+            setUsername={setUserName}
             peerId={peerId}
         />
     )

@@ -7,6 +7,11 @@
     border: 0;
 }
 
+.button:focus {
+    outline: none;
+    box-shadow: 0 0 10px 0 var(--color-accent);
+}
+
 .button:hover {
     box-shadow: var(--color-brand) 0 0 0 2px;
 }
