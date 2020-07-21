@@ -6,17 +6,7 @@ import {
 import logService from '../logService'
 import Peer from 'peerjs'
 import { ConnectionInterface } from './p2pMasterService'
-
-interface P2PStateUserInterface {
-    name: string
-    voteRating: number
-}
-
-export interface P2PStateInterface {
-    users: Array<P2PStateUserInterface>
-    votingStarted: boolean
-    resultingScore: number | null
-}
+import { P2PStateInterface } from '../roomState/roomStateService'
 
 type PayloadFields = 'name' | 'peerId'
 

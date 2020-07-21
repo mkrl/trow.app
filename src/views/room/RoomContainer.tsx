@@ -1,19 +1,26 @@
 import { FunctionalComponent, h } from 'preact'
-import RoomComponent, {
-    RoomComponentInterface,
-} from '../../components/room/RoomComponent'
+import RoomComponent from '../../components/room/RoomComponent'
+import useRoomState from '../../hooks/useRoomState'
 
-// interface RoomInterface {
-//     hostName: string
-// }
+interface RoomInterface {
+    isHost: boolean
+    peerId: string
+}
 
-export type RoomContainerType = RoomComponentInterface
+export type RoomContainerType = RoomInterface
 
 const RoomContainer: FunctionalComponent<RoomContainerType> = ({
     isHost,
     peerId,
 }: RoomContainerType) => {
-    return <RoomComponent isHost={isHost} peerId={peerId} />
+    const roomUIState = useRoomState()
+    return (
+        <RoomComponent
+            roomUIState={roomUIState}
+            isHost={isHost}
+            peerId={peerId}
+        />
+    )
 }
 
 export default RoomContainer
