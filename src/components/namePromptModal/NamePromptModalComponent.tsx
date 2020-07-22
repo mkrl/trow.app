@@ -17,7 +17,12 @@ const NamePromptModalComponent: FunctionalComponent<NamePromptModalContainerInte
     username,
 }: NamePromptModalContainerInterface) => (
     <ModalComponent isOpen={isOpen} title="Introduce yourself">
-        <InputElement value={username} onChange={setUsername} type="text" />
+        <InputElement
+            value={username}
+            autoFocus
+            onChange={setUsername}
+            type="text"
+        />
         <ButtonElement onClick={onNameSubmit}>Submit</ButtonElement>
     </ModalComponent>
 )

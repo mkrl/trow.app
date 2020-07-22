@@ -9,6 +9,7 @@ interface InputInterface {
     onChange?: (text: string) => void
     readOnly?: boolean
     placeholder?: string
+    autoFocus?: boolean
 }
 
 // https://github.com/preactjs/preact/issues/1930
@@ -19,12 +20,14 @@ const InputElement: FunctionalComponent<InputInterface> = ({
     isBlock,
     readOnly,
     placeholder,
+    autoFocus = false,
 }: InputInterface) => (
     <input
         class={cn(style.input, isBlock && style.block)}
         type={type}
         value={value}
         readOnly={readOnly}
+        autoFocus={autoFocus}
         onKeyUp={(e): void =>
             onChange && onChange((e.target as HTMLInputElement).value)
         }
