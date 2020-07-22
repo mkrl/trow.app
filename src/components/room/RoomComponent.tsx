@@ -1,21 +1,22 @@
-import { h, FunctionalComponent, Fragment } from 'preact'
+import { h, FunctionalComponent } from 'preact'
 import InputElement from '../elements/input/InputElement'
 import { P2PStateInterface } from '../../services/roomState/roomStateService'
+import RoomLayout from '../layout/room/RoomLayoutComponent'
 
 export interface RoomComponentInterface {
     isHost: boolean
     peerId: string
     roomUIState: P2PStateInterface
+    Sidebar: FunctionalComponent
 }
 
 const RoomComponent: FunctionalComponent<RoomComponentInterface> = ({
     isHost,
     peerId,
     roomUIState,
+    Sidebar,
 }: RoomComponentInterface) => (
-    <Fragment>
-        <p>{roomUIState?.users[0]?.name}</p>
-        <p>{roomUIState?.users[1]?.name}</p>
+    <RoomLayout SidebarComponent={Sidebar}>
         {isHost && (
             <p>You are the host. Feel free to share the link to your room.</p>
         )}
@@ -36,7 +37,7 @@ const RoomComponent: FunctionalComponent<RoomComponentInterface> = ({
             </a>
         )}
         {!isHost && <p>Sit back and relax. You are all set.</p>}
-    </Fragment>
+    </RoomLayout>
 )
 
 export default RoomComponent

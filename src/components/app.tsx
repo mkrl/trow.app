@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from 'preact'
 import Header from './header/HeaderComponent'
 import Home from '../views/home/HomeContainer'
-import LayoutComponent from './layout/LayoutComponent'
+import LayoutComponent from './layout/main/LayoutComponent'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 if ((module as any).hot) {

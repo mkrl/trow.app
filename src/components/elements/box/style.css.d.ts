@@ -8,6 +8,8 @@ declare namespace StyleCssNamespace {
         'align-stretch': string
         box: string
         column: string
+        container: string
+        fulHeight: string
         'justify-around': string
         'justify-between': string
         'justify-center': string

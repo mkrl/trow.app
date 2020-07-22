@@ -1,6 +1,6 @@
 import logService from '../logService'
 
-interface P2PStateUserInterface {
+export interface P2PStateUserInterface {
     name: string
     voteRating: number
 }

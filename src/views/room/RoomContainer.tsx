@@ -1,6 +1,7 @@
 import { FunctionalComponent, h } from 'preact'
 import RoomComponent from '../../components/room/RoomComponent'
 import useRoomState from '../../hooks/useRoomState'
+import RoomSidebarComponent from '../../components/room/roomSidebar/RoomSidebarComponent'
 
 interface RoomInterface {
     isHost: boolean
@@ -14,8 +15,12 @@ const RoomContainer: FunctionalComponent<RoomContainerType> = ({
     peerId,
 }: RoomContainerType) => {
     const roomUIState = useRoomState()
+    const RoomSidebar: FunctionalComponent = () => (
+        <RoomSidebarComponent users={roomUIState.users} />
+    )
     return (
         <RoomComponent
+            Sidebar={RoomSidebar}
             roomUIState={roomUIState}
             isHost={isHost}
             peerId={peerId}

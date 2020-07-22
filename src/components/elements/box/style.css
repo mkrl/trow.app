@@ -9,6 +9,15 @@
 	flex-direction: column;
 }
 
+.fulHeight {
+	height: 100%;
+}
+
+.container {
+	max-width: 800px;
+	margin: 0 auto;
+}
+
 .justify-start {
 	justify-content: flex-start;
 }

@@ -1,0 +1,70 @@
+.avatar {
+    width: 70px;
+    height: 70px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    position: relative;
+    animation: pop 0.6s ease-in-out;
+    background-color: var(--color-brand);
+    margin-bottom: 1vw;
+}
+
+.online:after {
+    content: '';
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    animation-name: pulse;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    background-color: var(--color-success);
+    border-radius: 50%;
+}
+
+.tooltip {
+    display: none;
+    background-color: var(--color-dark-3);
+    color: var(--color-light-1);
+    padding: 0.7rem;
+    border-radius: var(--base-border-radius);
+    position: absolute;
+    top: -32px;
+    left: 62px;
+}
+.tooltip:after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 12px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid var(--color-dark-3);
+}
+
+
+.avatar:hover > .tooltip {
+    display: block;
+    animation: jump 0.2s ease-in;
+}
+
+@keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 #4bd28f80; }
+    70%  { box-shadow: 0 0 0 15px #4bd28f00; }
+    100% { box-shadow: 0 0 0 0 #4bd28f00; }
+}
+
+@keyframes pop {
+    0%  { transform: scale(0.3) }
+    50%  { transform: scale(1.3) }
+}
+
+@keyframes jump {
+    0%  { transform: translateY(10px); }
+    50%  { transform: scaleY(0.8); }
+}

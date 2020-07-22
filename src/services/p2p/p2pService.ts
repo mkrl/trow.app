@@ -29,7 +29,6 @@ export const createRoom = ({ name, callback }: CreateRoomInterface): void => {
         callback(id)
     })
     peer.on('connection', onConnectMaster)
-    // window.peer = peer
 }
 
 export const joinRoom = ({
@@ -45,7 +44,5 @@ export const joinRoom = ({
         slavePeerIdentity.setName(name)
         callback(id)
         onConnectSlave(conn)
-        // window.peer = peer
-        // window.conn = conn
     })
 }

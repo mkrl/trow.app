@@ -1,5 +1,5 @@
 .home {
 	padding: 5vw;
-	min-height: 100%;
+	height: calc(100% - 5vw);
 	width: 100%;
 }
