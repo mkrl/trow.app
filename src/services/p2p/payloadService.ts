@@ -35,7 +35,7 @@ export const sendHandshake = ({
     peerId,
     isHost = false,
 }: SendHandshakeInterface): void => {
-    logService.log(`Sent ${isHost ? 'master' : 'slave'} handshake request`)
+    logService.log(`Sent handshake ${isHost ? 'request' : 'response'} `)
     conn.send({
         type: isHost ? PAYLOAD_HANDSHAKE_REQUEST : PAYLOAD_HANDSHAKE_RESPONSE,
         payload: {

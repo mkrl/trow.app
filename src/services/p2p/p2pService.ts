@@ -5,6 +5,7 @@ import { onConnectSlave } from './p2pSlaveService'
 import masterPeerIdentity from './identity/masterPeerIdentity'
 import slavePeerIdentity from './identity/slavePeerIdentity'
 import logService from '../logService'
+import roomState from '../roomState/roomStateService'
 
 interface CreateRoomInterface {
     name: string
@@ -21,6 +22,7 @@ export const createRoom = ({ name, callback }: CreateRoomInterface): void => {
     const peer = new Peer({ ...peerConfig })
     peer.on('open', (id: string) => {
         logService.log('Connected with id ', id)
+        roomState.addUser(name)
         masterPeerIdentity.setPeerId(id)
         masterPeerIdentity.setName(name)
         masterPeerIdentity.setPeerRef(peer)

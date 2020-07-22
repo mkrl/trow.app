@@ -8,6 +8,7 @@ import logService from '../logService'
 import { PAYLOAD_HANDSHAKE_RESPONSE } from '../../constants/p2pPayloadConstants'
 import masterPeerIdentity from './identity/masterPeerIdentity'
 import Peer from 'peerjs'
+import roomState from '../roomState/roomStateService'
 
 export interface ConnectionInterface {
     name: string
@@ -23,24 +24,15 @@ interface ActionMapInterface {
 
 const MASTER_ACTION_MAP: ActionMapInterface = {
     [PAYLOAD_HANDSHAKE_RESPONSE]: (payload: PayloadContent): void => {
-        if (
-            !names.includes(payload.name) &&
-            payload.name !== masterPeerIdentity.getName() &&
-            payload.name !== null
-        ) {
+        const activeUsers = roomState.getUserNames()
+        if (!activeUsers.includes(payload.name) && payload.name !== null) {
             connections.push(payload)
             names.push(payload.name)
+            roomState.addUser(payload.name)
             broadcastData({
                 peer: masterPeerIdentity.getPeerRef(),
                 connections,
-                data: {
-                    users: connections.map(a => ({
-                        name: a.name,
-                        voteRating: 0,
-                    })),
-                    votingStarted: false,
-                    resultingScore: null,
-                },
+                data: roomState.getState(),
             })
         } else {
             logService.error('Name is already in use or no name supplied')
@@ -71,6 +63,10 @@ export const onConnectMaster = (conn: Peer.DataConnection): void => {
         })
     })
     conn.on('close', () => {
-        logService.log('Disconnected slave ', conn.peer)
+        const leftUser = roomState.getNameByPeerId(conn.peer)
+        if (leftUser) {
+            logService.log('Disconnected slave ', leftUser)
+            roomState.removeUser(leftUser)
+        }
     })
 }
