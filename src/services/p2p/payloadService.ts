@@ -5,8 +5,8 @@ import {
 } from '../../constants/p2pPayloadConstants'
 import logService from '../logService'
 import Peer from 'peerjs'
-import { ConnectionInterface } from './p2pMasterService'
 import { P2PStateInterface } from '../roomState/roomStateService'
+import masterPeerIdentity from './identity/masterPeerIdentity'
 
 type PayloadFields = 'name' | 'peerId'
 
@@ -25,7 +25,6 @@ interface SendHandshakeInterface {
 }
 interface BroadcastInterface {
     peer: Peer
-    connections: Array<ConnectionInterface>
     data: P2PStateInterface
 }
 
@@ -45,11 +44,8 @@ export const sendHandshake = ({
     })
 }
 
-export const broadcastData = ({
-    peer,
-    connections,
-    data,
-}: BroadcastInterface): void => {
+export const broadcastData = ({ peer, data }: BroadcastInterface): void => {
+    const connections = masterPeerIdentity.getConnections()
     connections.map(item => {
         const connection = peer.connections[item.peerId][0]
         if (connection) {

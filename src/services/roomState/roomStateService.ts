@@ -9,7 +9,6 @@ export interface P2PStateUserInterface {
 export interface P2PStateInterface {
     users: Array<P2PStateUserInterface>
     votingStarted: boolean
-    resultingScore: number | null
 }
 
 type UIUpdater = (state: string) => void
@@ -28,7 +27,6 @@ interface RoomStateInterface {
 const initialRoomState: P2PStateInterface = {
     users: [],
     votingStarted: false,
-    resultingScore: null,
 }
 
 const roomState = ((): RoomStateInterface => {

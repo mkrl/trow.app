@@ -10,28 +10,15 @@ import masterPeerIdentity from './identity/masterPeerIdentity'
 import Peer from 'peerjs'
 import roomState from '../roomState/roomStateService'
 
-export interface ConnectionInterface {
-    name: string
-    peerId: string
-}
-
-const connections: Array<ConnectionInterface> = []
-const names: Array<string> = []
-
 interface ActionMapInterface {
     [key: string]: (payload: PayloadContent, conn: Peer.DataConnection) => void
 }
 
 const MASTER_ACTION_MAP: ActionMapInterface = {
     [PAYLOAD_HANDSHAKE_RESPONSE]: (payload: PayloadContent): void => {
-        const activeUsers = roomState.getUserNames()
-        if (!activeUsers.includes(payload.name) && payload.name !== null) {
-            connections.push(payload)
-            names.push(payload.name)
-            roomState.addUser(payload.name)
+        if (masterPeerIdentity.addConnection(payload)) {
             broadcastData({
                 peer: masterPeerIdentity.getPeerRef(),
-                connections,
                 data: roomState.getState(),
             })
         } else {
