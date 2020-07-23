@@ -17,26 +17,26 @@ const HomeContainer: FunctionalComponent = () => {
     const onBeginClick = (): void => {
         setActiveView(APP_VIEW_NAME_PROMPT)
     }
-    const onCreateRoom = (): void => {
-        createRoom({
-            name: userName,
-            callback: (id: string) => {
-                setPeerId(id)
-                setActiveView(APP_VIEW_ROOM)
-            },
-        })
-    }
-    const onJoinRoom = (): void => {
-        joinRoom({
-            roomId,
-            name: userName,
-            callback: (id: string) => {
-                setPeerId(id)
-                setActiveView(APP_VIEW_ROOM)
-            },
-        })
-    }
     useEffect(() => {
+        const onCreateRoom = (): void => {
+            createRoom({
+                name: userName,
+                callback: (id: string) => {
+                    setPeerId(id)
+                    setActiveView(APP_VIEW_ROOM)
+                },
+            })
+        }
+        const onJoinRoom = (): void => {
+            joinRoom({
+                roomId,
+                name: userName,
+                callback: (id: string) => {
+                    setPeerId(id)
+                    setActiveView(APP_VIEW_ROOM)
+                },
+            })
+        }
         if (userName.length > 0) {
             if (!isHost) {
                 onJoinRoom()
