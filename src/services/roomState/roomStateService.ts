@@ -3,6 +3,7 @@ import logService from '../logService'
 export interface P2PStateUserInterface {
     name: string
     voteRating: number
+    isHost?: boolean
 }
 
 export interface P2PStateInterface {
@@ -21,6 +22,7 @@ interface RoomStateInterface {
     addUser: (name: string) => void
     voteUser: ({ name, voteRating }: P2PStateUserInterface) => void
     setUIUpdater: (updater: UIUpdater) => void
+    setState: (state: P2PStateInterface) => void
 }
 
 const initialRoomState: P2PStateInterface = {
@@ -55,7 +57,13 @@ const roomState = ((): RoomStateInterface => {
         }
     }
     const _addUser = (name: string): void => {
-        currentRoomState.users.push({ name, voteRating: -1 })
+        const isNoUsers = currentRoomState.users.length === 0
+        const isHost = isNoUsers
+            ? {
+                  isHost: true,
+              }
+            : undefined
+        currentRoomState.users.push({ name, voteRating: -1, ...isHost })
         _updateUIState(currentRoomState)
     }
     const _voteUser = ({ name, voteRating }: P2PStateUserInterface): void => {
@@ -73,6 +81,10 @@ const roomState = ((): RoomStateInterface => {
     const _getUserNames = (): Array<string> => {
         return currentRoomState.users.map(user => user.name)
     }
+    const _setState = (newState: P2PStateInterface): void => {
+        currentRoomState = newState
+        _updateUIState(currentRoomState)
+    }
     return {
         getState: (): P2PStateInterface => currentRoomState,
         getUserNames: _getUserNames,
@@ -81,6 +93,7 @@ const roomState = ((): RoomStateInterface => {
         addUser: _addUser,
         voteUser: _voteUser,
         setUIUpdater: _setUIUpdater,
+        setState: _setState,
     }
 })()
 

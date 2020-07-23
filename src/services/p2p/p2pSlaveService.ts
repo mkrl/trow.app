@@ -1,5 +1,8 @@
 import logService from '../logService'
-import { PAYLOAD_HANDSHAKE_REQUEST } from '../../constants/p2pPayloadConstants'
+import {
+    PAYLOAD_HANDSHAKE_REQUEST,
+    PAYLOAD_STATE_BROADCAST,
+} from '../../constants/p2pPayloadConstants'
 import {
     PayloadContent,
     PayloadInterface,
@@ -7,6 +10,7 @@ import {
 } from './payloadService'
 import slavePeerIdentity from './identity/slavePeerIdentity'
 import Peer from 'peerjs'
+import roomState from '../roomState/roomStateService'
 
 interface ActionMapInterface {
     [key: string]: (payload: PayloadContent, conn: Peer.DataConnection) => void
@@ -22,6 +26,9 @@ const SLAVE_ACTION_MAP: ActionMapInterface = {
             name: slavePeerIdentity.getName(),
             peerId: slavePeerIdentity.getPeerId(),
         })
+    },
+    [PAYLOAD_STATE_BROADCAST]: (payload: PayloadContent): void => {
+        roomState.setState(payload)
     },
 }
 

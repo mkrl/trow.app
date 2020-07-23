@@ -51,9 +51,12 @@ export const broadcastData = ({
     data,
 }: BroadcastInterface): void => {
     connections.map(item => {
-        peer.connections[item.peerId][0].send({
-            type: PAYLOAD_STATE_BROADCAST,
-            payload: data,
-        })
+        const connection = peer.connections[item.peerId][0]
+        if (connection) {
+            connection.send({
+                type: PAYLOAD_STATE_BROADCAST,
+                payload: data,
+            })
+        }
     })
 }
