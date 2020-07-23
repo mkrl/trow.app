@@ -18,7 +18,6 @@ const MASTER_ACTION_MAP: ActionMapInterface = {
     [PAYLOAD_HANDSHAKE_RESPONSE]: (payload: PayloadContent): void => {
         if (masterPeerIdentity.addConnection(payload)) {
             broadcastData({
-                peer: masterPeerIdentity.getPeerRef(),
                 data: roomState.getState(),
             })
         } else {
