@@ -24,7 +24,6 @@ interface SendHandshakeInterface {
     isHost?: boolean
 }
 interface BroadcastInterface {
-    peer: Peer
     data: P2PStateInterface
 }
 
@@ -44,7 +43,9 @@ export const sendHandshake = ({
     })
 }
 
-export const broadcastData = ({ peer, data }: BroadcastInterface): void => {
+export const broadcastData = ({ data }: BroadcastInterface): void => {
+    // This can later be changed if need for slave broadcasting is introduced
+    const peer = masterPeerIdentity.getPeerRef()
     const connections = masterPeerIdentity.getConnections()
     connections.map(item => {
         const connection = peer.connections[item.peerId][0]
