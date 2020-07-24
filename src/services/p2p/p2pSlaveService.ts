@@ -7,6 +7,7 @@ import {
     PayloadContent,
     PayloadInterface,
     sendHandshake,
+    voteSlave,
 } from './payloadService'
 import slavePeerIdentity from './identity/slavePeerIdentity'
 import Peer from 'peerjs'
@@ -44,5 +45,8 @@ export const onConnectSlave = (conn: Peer.DataConnection): void => {
     })
     conn.on('open', () => {
         logService.log('Connected to host ', conn.peer)
+        slavePeerIdentity.setMasterRef(conn)
     })
 }
+
+export const onVoteSlave = (vote: number): void => voteSlave(vote)

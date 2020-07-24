@@ -7,6 +7,7 @@ import cn from 'classnames'
 interface BoxElementInterface {
     children: ComponentChildren
     isFullHeight?: boolean
+    isFullWidth?: boolean
     isContainer?: boolean
     flexDirection?: 'column' | 'row'
     justifyContent?:
@@ -25,6 +26,7 @@ const BoxElement: FunctionalComponent<BoxElementInterface> = ({
     justifyContent = 'start',
     alignItems = 'start',
     isFullHeight,
+    isFullWidth,
     isContainer,
 }: BoxElementInterface) => (
     <div
@@ -33,7 +35,8 @@ const BoxElement: FunctionalComponent<BoxElementInterface> = ({
             style[flexDirection],
             style[`justify-${justifyContent}`],
             style[`align-${alignItems}`],
-            isFullHeight && style.fulHeight,
+            isFullHeight && style.fullHeight,
+            isFullWidth && style.fullWidth,
             isContainer && style.container
         )}
     >

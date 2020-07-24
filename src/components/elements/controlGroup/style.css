@@ -1,5 +1,6 @@
 .group {
     display: flex;
+    margin-bottom: 20px;
 }
 
 .group > input {

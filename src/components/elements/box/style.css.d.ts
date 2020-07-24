@@ -9,7 +9,8 @@ declare namespace StyleCssNamespace {
         box: string
         column: string
         container: string
-        fulHeight: string
+        fullHeight: string
+        fullWidth: string
         'justify-around': string
         'justify-between': string
         'justify-center': string

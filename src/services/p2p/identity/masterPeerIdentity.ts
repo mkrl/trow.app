@@ -18,6 +18,7 @@ interface IdentityInterface {
     getConnections: () => Connections
     addConnection: (connection: ConnectionInterface) => boolean
     removeConnection: (peerId: string) => string | undefined
+    findNameByPeer: (peerId: string) => string | undefined
 }
 
 const masterPeerIdentity = ((): IdentityInterface => {
@@ -57,6 +58,13 @@ const masterPeerIdentity = ((): IdentityInterface => {
         }
         return undefined
     }
+    const _findNameByPeer = (peerId: string): string | undefined => {
+        const connToFind = connections.find(conn => conn.peerId === peerId)
+        if (connToFind) {
+            return connToFind.name
+        }
+        return undefined
+    }
     return {
         setName: _setName,
         setPeerId: _setPeerId,
@@ -67,6 +75,7 @@ const masterPeerIdentity = ((): IdentityInterface => {
         getPeerRef: (): Peer => peerRef,
         getConnections: (): Connections => connections,
         removeConnection: _removeConnection,
+        findNameByPeer: _findNameByPeer,
     }
 })()
 

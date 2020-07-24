@@ -2,15 +2,20 @@ import {
     PAYLOAD_HANDSHAKE_REQUEST,
     PAYLOAD_HANDSHAKE_RESPONSE,
     PAYLOAD_STATE_BROADCAST,
+    PAYLOAD_VOTE,
 } from '../../constants/p2pPayloadConstants'
 import logService from '../logService'
 import Peer from 'peerjs'
 import { P2PStateInterface } from '../roomState/roomStateService'
 import masterPeerIdentity from './identity/masterPeerIdentity'
+import slavePeerIdentity from './identity/slavePeerIdentity'
 
 type PayloadFields = 'name' | 'peerId'
 
-export type PayloadContent = Record<PayloadFields, string> & P2PStateInterface
+// @TODO: break down this type
+export type PayloadContent = Record<PayloadFields, string> &
+    P2PStateInterface &
+    number
 
 export interface PayloadInterface {
     type: string
@@ -55,5 +60,14 @@ export const broadcastData = ({ data }: BroadcastInterface): void => {
                 payload: data,
             })
         }
+    })
+}
+
+export const voteSlave = (newVote: number): void => {
+    // This can later be changed if need for slave broadcasting is introduced
+    const conn = slavePeerIdentity.getMasterRef()
+    conn.send({
+        type: PAYLOAD_VOTE,
+        payload: newVote,
     })
 }

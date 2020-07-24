@@ -1,57 +1,23 @@
-import { h, FunctionalComponent } from 'preact'
+import { h, FunctionalComponent, Fragment } from 'preact'
 import InputElement from '../elements/input/InputElement'
 import { P2PStateInterface } from '../../services/roomState/roomStateService'
 import RoomLayout from '../layout/room/RoomLayoutComponent'
-import { useEffect, useState } from 'preact/hooks'
-import VoteRangeComponent from '../voteRange/VoteRangeComponent'
 import ControlGroupElement from '../elements/controlGroup/ControlGroupElement'
 import ButtonElement from '../elements/button/ButtonElement'
+import RangeContainer from '../../containers/RangeContainer'
+import BoxElement from '../elements/box/BoxElement'
+import VoteResultComponent from '../voteResult/VoteResultComponent'
 
 interface RoomComponentInterface {
     isHost: boolean
     roomUrl: string
     onCopyClick: () => void
+    onSubmitVote: (score: number) => void
+    onStartClick: () => void
     Sidebar: FunctionalComponent
 }
 
 type RoomType = RoomComponentInterface & P2PStateInterface
-
-const RangeContainer: FunctionalComponent = () => {
-    const [value, setValue] = useState<number>(5)
-    const onSubmit = (thing: number): void => alert(thing)
-    useEffect(() => {
-        const listener = (e: KeyboardEvent): void => {
-            if (
-                [
-                    '1',
-                    '2',
-                    '3',
-                    '4',
-                    '5',
-                    '6',
-                    '7',
-                    '8',
-                    '9',
-                    '0',
-                    '-',
-                ].includes(e.key)
-            ) {
-                const keyValue = e.key === '-' ? 10 : Number(e.key)
-                setValue(keyValue)
-            }
-        }
-        document.addEventListener('keyup', listener)
-        return (): void => document.removeEventListener('keyup', listener)
-    }, [])
-    return (
-        <VoteRangeComponent
-            value={value}
-            range={11}
-            onChange={setValue}
-            onSubmit={onSubmit}
-        />
-    )
-}
 
 const RoomComponent: FunctionalComponent<RoomType> = ({
     isHost,
@@ -59,20 +25,50 @@ const RoomComponent: FunctionalComponent<RoomType> = ({
     votingStarted,
     users,
     onCopyClick,
+    onStartClick,
+    onSubmitVote,
     Sidebar,
+    previouslyVoted,
 }: RoomType) => (
     <RoomLayout SidebarComponent={Sidebar}>
-        {isHost && (
+        {isHost && !votingStarted && !previouslyVoted && (
             <p>You are the host. Feel free to share the link to your room.</p>
         )}
         {isHost && !votingStarted && (
-            <ControlGroupElement>
-                <InputElement type="text" readOnly isBlock value={roomUrl} />
-                <ButtonElement onClick={onCopyClick}>Copy</ButtonElement>
-            </ControlGroupElement>
+            <Fragment>
+                <ControlGroupElement>
+                    <InputElement
+                        type="text"
+                        readOnly
+                        isBlock
+                        value={roomUrl}
+                    />
+                    <ButtonElement onClick={onCopyClick}>Copy</ButtonElement>
+                </ControlGroupElement>
+            </Fragment>
         )}
-        {!isHost && <p>Sit back and relax. You are all set.</p>}
-        <RangeContainer />
+        {!isHost && !votingStarted && !previouslyVoted && (
+            <p>
+                Sit back and relax. You are all set. Waiting for the host to
+                start.
+            </p>
+        )}
+        {votingStarted && <RangeContainer onSubmitVote={onSubmitVote} />}
+        {previouslyVoted && !votingStarted && (
+            <VoteResultComponent users={users} />
+        )}
+        {isHost && !votingStarted && (
+            <BoxElement
+                isFullHeight={!previouslyVoted}
+                alignItems="center"
+                justifyContent="center"
+                flexDirection="column"
+            >
+                <ButtonElement onClick={onStartClick}>
+                    {previouslyVoted ? 'Start again' : 'Start'}
+                </ButtonElement>
+            </BoxElement>
+        )}
     </RoomLayout>
 )
 

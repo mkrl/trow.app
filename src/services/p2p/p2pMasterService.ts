@@ -5,7 +5,10 @@ import {
     sendHandshake,
 } from './payloadService'
 import logService from '../logService'
-import { PAYLOAD_HANDSHAKE_RESPONSE } from '../../constants/p2pPayloadConstants'
+import {
+    PAYLOAD_HANDSHAKE_RESPONSE,
+    PAYLOAD_VOTE,
+} from '../../constants/p2pPayloadConstants'
 import masterPeerIdentity from './identity/masterPeerIdentity'
 import Peer from 'peerjs'
 import roomState from '../roomState/roomStateService'
@@ -22,6 +25,18 @@ const MASTER_ACTION_MAP: ActionMapInterface = {
             })
         } else {
             logService.error('Name is already in use or no name supplied')
+        }
+    },
+    [PAYLOAD_VOTE]: (
+        payload: PayloadContent,
+        conn: Peer.DataConnection
+    ): void => {
+        const votedUsername = masterPeerIdentity.findNameByPeer(conn.peer)
+        if (votedUsername) {
+            roomState.voteUser({
+                name: votedUsername,
+                voteRating: payload,
+            })
         }
     },
 }
@@ -56,3 +71,9 @@ export const onConnectMaster = (conn: Peer.DataConnection): void => {
         }
     })
 }
+
+export const onVoteMaster = (vote: number): void =>
+    roomState.voteUser({
+        name: masterPeerIdentity.getName(),
+        voteRating: vote,
+    })

@@ -3,22 +3,22 @@ import Peer from 'peerjs'
 interface IdentityInterface {
     setName: (newName: string) => void
     setPeerId: (newPeer: string) => void
-    setPeerRef: (newPeer: Peer) => void
+    setMasterRef: (newConn: Peer.DataConnection) => void
     getName: () => string
     getPeerId: () => string
-    getPeerRef: () => Peer
+    getMasterRef: () => Peer.DataConnection
 }
 
 const slavePeerIdentity = ((): IdentityInterface => {
     let peerId: string
-    let peerRef: Peer
+    let peerMasterRef: Peer.DataConnection
     let name: string
 
     const _setName = (newName: string): void => {
         name = newName
     }
-    const _setPeerRef = (newPeer: Peer): void => {
-        peerRef = newPeer
+    const _setPeerRef = (newConn: Peer.DataConnection): void => {
+        peerMasterRef = newConn
     }
     const _setPeerId = (newID: string): void => {
         peerId = newID
@@ -26,10 +26,10 @@ const slavePeerIdentity = ((): IdentityInterface => {
     return {
         setName: _setName,
         setPeerId: _setPeerId,
-        setPeerRef: _setPeerRef,
+        setMasterRef: _setPeerRef,
         getName: (): string => name,
         getPeerId: (): string => peerId,
-        getPeerRef: (): Peer => peerRef,
+        getMasterRef: (): Peer.DataConnection => peerMasterRef,
     }
 })()
 

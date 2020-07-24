@@ -2,6 +2,9 @@ import { FunctionalComponent, h } from 'preact'
 import RoomComponent from '../../components/room/RoomComponent'
 import useRoomState from '../../hooks/useRoomState'
 import RoomSidebarComponent from '../../components/room/roomSidebar/RoomSidebarComponent'
+import { onVoteMaster } from '../../services/p2p/p2pMasterService'
+import { onVoteSlave } from '../../services/p2p/p2pSlaveService'
+import roomState from '../../services/roomState/roomStateService'
 
 interface RoomInterface {
     isHost: boolean
@@ -15,13 +18,20 @@ const RoomContainer: FunctionalComponent<RoomContainerType> = ({
     peerId,
 }: RoomContainerType) => {
     const roomUrl = `${window.location.origin}/?${peerId}`
-    const { users, votingStarted } = useRoomState()
+    const { users, votingStarted, previouslyVoted } = useRoomState(isHost)
+
     const RoomSidebar: FunctionalComponent = () => (
         <RoomSidebarComponent users={users} />
     )
+
     const onCopyClick = (): void => {
         navigator.clipboard.writeText(roomUrl)
     }
+    const onStartClick = (): void =>
+        previouslyVoted ? roomState.restart() : roomState.setVotingStarted(true)
+    const onSubmitVote = (vote: number): void =>
+        isHost ? onVoteMaster(vote) : onVoteSlave(vote)
+
     return (
         <RoomComponent
             Sidebar={RoomSidebar}
@@ -30,6 +40,9 @@ const RoomContainer: FunctionalComponent<RoomContainerType> = ({
             isHost={isHost}
             roomUrl={roomUrl}
             onCopyClick={onCopyClick}
+            onSubmitVote={onSubmitVote}
+            onStartClick={onStartClick}
+            previouslyVoted={previouslyVoted}
         />
     )
 }
