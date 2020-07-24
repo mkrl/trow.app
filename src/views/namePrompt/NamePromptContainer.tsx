@@ -10,7 +10,9 @@ const NamePromptContainer: FunctionalComponent<NamePromptContainerInterface> = (
     setUsername,
 }: NamePromptContainerInterface) => {
     const [modalUsername, setModalUsername] = useState<string>('')
+    const [isDisabled, setDisabled] = useState<boolean>(false)
     const onSubmit = (): void => {
+        setDisabled(true)
         setUsername(modalUsername)
     }
     return (
@@ -19,6 +21,7 @@ const NamePromptContainer: FunctionalComponent<NamePromptContainerInterface> = (
             setUsername={setModalUsername}
             onNameSubmit={onSubmit}
             isOpen
+            isBtnDisabled={isDisabled}
         />
     )
 }

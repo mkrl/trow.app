@@ -9,6 +9,7 @@ interface NamePromptModalContainerInterface {
     onNameSubmit: () => void
     setUsername: (text: string) => void
     username: string
+    isBtnDisabled: boolean
 }
 
 const NamePromptModalComponent: FunctionalComponent<NamePromptModalContainerInterface> = ({
@@ -16,6 +17,7 @@ const NamePromptModalComponent: FunctionalComponent<NamePromptModalContainerInte
     onNameSubmit,
     setUsername,
     username,
+    isBtnDisabled,
 }: NamePromptModalContainerInterface) => (
     <ModalComponent isOpen={isOpen} title="Introduce yourself">
         <ControlGroupElement>
@@ -24,8 +26,11 @@ const NamePromptModalComponent: FunctionalComponent<NamePromptModalContainerInte
                 autoFocus
                 onChange={setUsername}
                 type="text"
+                isBlock
             />
-            <ButtonElement onClick={onNameSubmit}>Submit</ButtonElement>
+            <ButtonElement disabled={isBtnDisabled} onClick={onNameSubmit}>
+                Submit
+            </ButtonElement>
         </ControlGroupElement>
     </ModalComponent>
 )
