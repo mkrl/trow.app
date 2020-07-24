@@ -26,6 +26,6 @@ export default {
             'src',
             'index'
         )
-        config.plugins.push(new helpers.webpack.EnvironmentPlugin(['NODE_ENV']))
+        config.plugins.push(new helpers.webpack.EnvironmentPlugin(['NODE_ENV', 'PEERJS_SERVER']))
     },
 }

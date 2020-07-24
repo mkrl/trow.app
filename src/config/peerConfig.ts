@@ -5,7 +5,9 @@ const DEV_CONFIG = {
     port: 9000,
 }
 
-const PROD_CONFIG = {}
+const PROD_CONFIG = {
+    host: process.env.PEERJS_SERVER,
+}
 
 const peerConfig = isDevelopment ? DEV_CONFIG : PROD_CONFIG
 
