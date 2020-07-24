@@ -1,4 +1,31 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    max-width:  800px;
+    margin: 0 auto;
+    height: 100%;
+}
+
 .content {
     width: 100%;
     margin-left: 5vw;
+}
+
+
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column-reverse;
+    }
+    .container > div {
+        flex-direction: row;
+        align-items: flex-end;
+        overflow-y: auto;
+        z-index: 2;
+    }
+    .container > div > div {
+        margin-right: 10px;
+    }
+    .content {
+        margin-left: 0;
+    }
 }

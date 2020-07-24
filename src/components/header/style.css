@@ -11,3 +11,9 @@
 	font-weight: 400;
 	color: var(--color-dark-1);
 }
+
+@media screen and (max-width: 768px) {
+	.header {
+		display: none;
+	}
+}

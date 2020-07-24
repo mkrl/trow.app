@@ -14,16 +14,22 @@ const RoomContainer: FunctionalComponent<RoomContainerType> = ({
     isHost,
     peerId,
 }: RoomContainerType) => {
-    const roomUIState = useRoomState()
+    const roomUrl = `${window.location.origin}/?${peerId}`
+    const { users, votingStarted } = useRoomState()
     const RoomSidebar: FunctionalComponent = () => (
-        <RoomSidebarComponent users={roomUIState.users} />
+        <RoomSidebarComponent users={users} />
     )
+    const onCopyClick = (): void => {
+        navigator.clipboard.writeText(roomUrl)
+    }
     return (
         <RoomComponent
             Sidebar={RoomSidebar}
-            roomUIState={roomUIState}
+            votingStarted={votingStarted}
+            users={users}
             isHost={isHost}
-            peerId={peerId}
+            roomUrl={roomUrl}
+            onCopyClick={onCopyClick}
         />
     )
 }

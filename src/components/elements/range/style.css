@@ -1,0 +1,47 @@
+.rangeContainer {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+}
+
+.rangeContainer button {
+    z-index: 1;
+    border: 2px var(--color-dark-2) solid;
+    background-color: var(--color-light-1);
+    -webkit-tap-highlight-color: transparent;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+    position: relative;
+}
+
+.rangeContainer button.filled {
+    background-color: var(--color-brand);
+}
+
+.rangeContainer button.active {
+    background-color: #c16f1f;
+    animation: pop 0.2s ease-in;
+}
+
+.rangeContainer button:focus {
+    outline: none;
+    box-shadow: 0 0 10px 0 var(--color-accent);
+}
+
+.rangeContainer > hr {
+    width: 100%;
+    position: absolute;
+    align-self: center;
+    height: 1px;
+    margin: 0;
+}
+
+.block {
+    width: 100%;
+}
+
+@keyframes pop {
+    50%  { transform: scale(1.3) }
+}

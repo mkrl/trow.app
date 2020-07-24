@@ -12,7 +12,11 @@ const UsersMapComponent: FunctionalComponent<RoomSidebarComponentInterface> = ({
 }: RoomSidebarComponentInterface) => (
     <Fragment>
         {users.map(user => (
-            <UserCard key={user.name} userName={user.name} />
+            <UserCard
+                key={user.name}
+                isHost={user.isHost}
+                userName={user.name}
+            />
         ))}
     </Fragment>
 )
@@ -20,7 +24,7 @@ const UsersMapComponent: FunctionalComponent<RoomSidebarComponentInterface> = ({
 const RoomSidebarComponent: FunctionalComponent<RoomSidebarComponentInterface> = ({
     users,
 }: RoomSidebarComponentInterface) => (
-    <BoxElement flexDirection="column" isFullHeight justifyContent="start">
+    <BoxElement flexDirection="column" justifyContent="start">
         <UsersMapComponent users={users} />
     </BoxElement>
 )

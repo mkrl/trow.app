@@ -13,6 +13,7 @@ const IndexComponent: FunctionalComponent<IndexComponentInterface> = ({
         alignItems="center"
         justifyContent="center"
         flexDirection="column"
+        isFullHeight
     >
         <ButtonElement onClick={onHostClick}>Create a room</ButtonElement>
         <p>...or join a room via an invite link</p>

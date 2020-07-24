@@ -6,17 +6,19 @@ import getAvatar from '../../helpers/avatarHelper'
 interface UserCardInterface {
     userName: string
     isOnline?: boolean
+    isHost?: boolean
 }
 
 const UserCard: FunctionalComponent<UserCardInterface> = ({
     userName,
     isOnline = true,
+    isHost = false,
 }: UserCardInterface) => (
     <div
         class={cn(style.avatar, isOnline && style.online)}
         style={`background-image: url(${getAvatar(userName)})`}
     >
-        <div class={style.tooltip}>{userName}</div>
+        <div class={style.tooltip}>{`${isHost ? '👑 ' : ''}${userName}`}</div>
     </div>
 )
 
