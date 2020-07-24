@@ -7,6 +7,15 @@
     border: 0;
 }
 
+.button:disabled {
+    pointer-events: none;
+    cursor: unset;
+    background-color: var(--color-dark-3);
+}
+.button:disabled:hover {
+    box-shadow: none;
+}
+
 .button:focus {
     outline: none;
     box-shadow: 0 0 10px 0 var(--color-accent);

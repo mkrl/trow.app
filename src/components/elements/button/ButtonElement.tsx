@@ -6,6 +6,7 @@ interface ButtonElementInterface {
     size?: 'sm' | 'md' | 'l' | 'xl'
     isBlock?: boolean
     onClick?: () => void
+    disabled?: boolean
     children: ComponentChild
 }
 
@@ -14,11 +15,13 @@ const ButtonElement: FunctionalComponent<ButtonElementInterface> = ({
     isBlock,
     onClick,
     children,
+    disabled = false,
 }: ButtonElementInterface) => (
     <button
         role="button"
         class={cn(style.button, style[size], isBlock && style.block)}
         onClick={onClick ? onClick : undefined}
+        disabled={disabled}
     >
         {children}
     </button>
