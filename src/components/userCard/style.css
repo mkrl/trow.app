@@ -10,7 +10,7 @@
     margin-bottom: 1vw;
 }
 
-.online:after {
+.avatar:after {
     content: '';
     width: 15px;
     height: 15px;
@@ -25,6 +25,11 @@
     border-radius: 50%;
 }
 
+.voted.avatar:after {
+    background-color: var(--color-info);
+    animation-name: pulseVoted;
+}
+
 .tooltip {
     display: none;
     background-color: var(--color-dark-3);
@@ -34,6 +39,13 @@
     position: absolute;
     top: -32px;
     left: 62px;
+}
+.score {
+    position: absolute;
+    left: -20px;
+    font-size: var(--xl-font-size);
+    font-weight: bold;
+    animation: jump 0.2s ease-in;
 }
 .tooltip:after {
     content: '';
@@ -67,12 +79,21 @@
         font-size: 14px;
         top: unset;
     }
+    /*@TODO: display on mobile nicely*/
+    .score {
+        display: none;
+    }
 }
 
 @keyframes pulse {
     0%   { box-shadow: 0 0 0 0 #4bd28f80; }
     70%  { box-shadow: 0 0 0 15px #4bd28f00; }
     100% { box-shadow: 0 0 0 0 #4bd28f00; }
+}
+@keyframes pulseVoted {
+    0%   { box-shadow: 0 0 0 0 rgba(0, 149, 255, .5); }
+    70%  { box-shadow: 0 0 0 15px rgba(0, 149, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 149, 255, 0); }
 }
 
 @keyframes pop {

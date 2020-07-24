@@ -21,7 +21,7 @@ const RoomContainer: FunctionalComponent<RoomContainerType> = ({
     const { users, votingStarted, previouslyVoted } = useRoomState(isHost)
 
     const RoomSidebar: FunctionalComponent = () => (
-        <RoomSidebarComponent users={users} />
+        <RoomSidebarComponent users={users} votingStarted={votingStarted} />
     )
 
     const onCopyClick = (): void => {

@@ -11,24 +11,35 @@ const VoteResultComponent: FunctionalComponent<VoteResultComponentInterface> = (
     users,
 }: VoteResultComponentInterface) => {
     const scores = users.map(user => user.voteRating)
+    let average = 0
+    let multipliedAverage = 0
     const positiveVotes = scores.filter(score => score >= 0)
-    const average = positiveVotes.reduce((a, b) => a + b) / positiveVotes.length
-    const multipliedAverage =
-        positiveVotes.reduce((a, b) => a * b) / positiveVotes.length
+    const someoneVoted = positiveVotes.length > 0
+    if (someoneVoted) {
+        average = positiveVotes.reduce((a, b) => a + b) / positiveVotes.length
+        multipliedAverage =
+            positiveVotes.reduce((a, b) => a * b) / positiveVotes.length
+    }
+
     return (
         <BoxElement
             justifyContent="between"
             alignItems="center"
             flexDirection="column"
         >
-            <BoxElement justifyContent="between" isFullWidth>
-                <span>
-                    Lowest score: <b>{Math.min(...positiveVotes)}</b>
-                </span>
-                <span>
-                    Muitiplied average: <b>{multipliedAverage.toFixed(2)}</b>
-                </span>
-            </BoxElement>
+            {someoneVoted ? (
+                <BoxElement justifyContent="between" isFullWidth>
+                    <span>
+                        Lowest score: <b>{Math.min(...positiveVotes)}</b>
+                    </span>
+                    <span>
+                        Muitiplied average:{' '}
+                        <b>{multipliedAverage.toFixed(2)}</b>
+                    </span>
+                </BoxElement>
+            ) : (
+                <p>No one voted</p>
+            )}
             <h1 class={style.result}>{average.toFixed(2)}</h1>
         </BoxElement>
     )

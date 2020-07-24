@@ -5,20 +5,31 @@ import getAvatar from '../../helpers/avatarHelper'
 
 interface UserCardInterface {
     userName: string
-    isOnline?: boolean
+    isVoted?: boolean
+    score: number
+    votingStarted: boolean
     isHost?: boolean
+}
+
+const getScore = (score: number): string | null => {
+    if (score === -2) return '❌'
+    if (score === -1) return null
+    return String(score)
 }
 
 const UserCard: FunctionalComponent<UserCardInterface> = ({
     userName,
-    isOnline = true,
+    isVoted = false,
     isHost = false,
+    score,
+    votingStarted,
 }: UserCardInterface) => (
     <div
-        class={cn(style.avatar, isOnline && style.online)}
+        class={cn(style.avatar, isVoted && style.voted)}
         style={`background-image: url(${getAvatar(userName)})`}
     >
         <div class={style.tooltip}>{`${isHost ? '👑 ' : ''}${userName}`}</div>
+        {!votingStarted && <div class={style.score}>{getScore(score)}</div>}
     </div>
 )
 
