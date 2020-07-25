@@ -79,9 +79,11 @@
         font-size: 14px;
         top: unset;
     }
-    /*@TODO: display on mobile nicely*/
     .score {
-        display: none;
+        left: 2px;
+        top: -3px;
+        font-size: 27px;
+        text-shadow: 0 0 4px var(--color-accent);
     }
 }
 
