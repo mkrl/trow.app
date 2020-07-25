@@ -100,7 +100,6 @@ const roomState = ((): RoomStateInterface => {
             ...user,
             voteRating: -1,
         }))
-        currentRoomState.previouslyVoted = false
         currentRoomState.votingStarted = true
         _updateUIState(currentRoomState)
     }
