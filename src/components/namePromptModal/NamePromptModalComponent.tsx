@@ -10,6 +10,7 @@ interface NamePromptModalContainerInterface {
     setUsername: (text: string) => void
     username: string
     isBtnDisabled: boolean
+    error: string
 }
 
 const NamePromptModalComponent: FunctionalComponent<NamePromptModalContainerInterface> = ({
@@ -18,6 +19,7 @@ const NamePromptModalComponent: FunctionalComponent<NamePromptModalContainerInte
     setUsername,
     username,
     isBtnDisabled,
+    error,
 }: NamePromptModalContainerInterface) => (
     <ModalComponent isOpen={isOpen} title="Introduce yourself">
         <ControlGroupElement>
@@ -32,6 +34,7 @@ const NamePromptModalComponent: FunctionalComponent<NamePromptModalContainerInte
                 Submit
             </ButtonElement>
         </ControlGroupElement>
+        {error && <p style="color: tomato">{error}</p>}
     </ModalComponent>
 )
 

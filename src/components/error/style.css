@@ -1,0 +1,23 @@
+.error {
+    background-color: tomato;
+    color: var(--color-light-1);
+    font-size: var(--l-font-size);
+    font-weight: bold;
+    padding: 1vw;
+    position: absolute;
+    width: 100%;
+    animation: up 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+    .error {
+        font-size: var(--base-font-size);
+    }
+}
+
+@keyframes up {
+    0% {
+        transform: translateY(1vw);
+        opacity: 0;
+    }
+}

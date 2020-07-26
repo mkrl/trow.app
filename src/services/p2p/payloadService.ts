@@ -1,6 +1,7 @@
 import {
     PAYLOAD_HANDSHAKE_REQUEST,
     PAYLOAD_HANDSHAKE_RESPONSE,
+    PAYLOAD_NAME_REJECT,
     PAYLOAD_STATE_BROADCAST,
     PAYLOAD_VOTE,
 } from '../../constants/p2pPayloadConstants'
@@ -64,10 +65,22 @@ export const broadcastData = ({ data }: BroadcastInterface): void => {
 }
 
 export const voteSlave = (newVote: number): void => {
-    // This can later be changed if need for slave broadcasting is introduced
+    logService.log(`Sent vote payload to host: ${newVote}`)
     const conn = slavePeerIdentity.getMasterRef()
     conn.send({
         type: PAYLOAD_VOTE,
         payload: newVote,
     })
+}
+
+export const nameReject = (
+    data: PayloadContent,
+    conn: Peer.DataConnection
+): void => {
+    logService.error('Name is already is use: ', data)
+    conn.send({
+        type: PAYLOAD_NAME_REJECT,
+        payload: data.name,
+    })
+    setTimeout(() => conn.close(), 2000)
 }

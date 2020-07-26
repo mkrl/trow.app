@@ -1,5 +1,6 @@
 import {
     broadcastData,
+    nameReject,
     PayloadContent,
     PayloadInterface,
     sendHandshake,
@@ -12,25 +13,23 @@ import {
 import masterPeerIdentity from './identity/masterPeerIdentity'
 import Peer from 'peerjs'
 import roomState from '../roomState/roomStateService'
+import { onError } from './p2pService'
 
 interface ActionMapInterface {
     [key: string]: (payload: PayloadContent, conn: Peer.DataConnection) => void
 }
 
 const MASTER_ACTION_MAP: ActionMapInterface = {
-    [PAYLOAD_HANDSHAKE_RESPONSE]: (payload: PayloadContent): void => {
+    [PAYLOAD_HANDSHAKE_RESPONSE]: (payload, conn): void => {
         if (masterPeerIdentity.addConnection(payload)) {
             broadcastData({
                 data: roomState.getState(),
             })
         } else {
-            logService.error('Name is already in use or no name supplied')
+            nameReject(payload, conn)
         }
     },
-    [PAYLOAD_VOTE]: (
-        payload: PayloadContent,
-        conn: Peer.DataConnection
-    ): void => {
+    [PAYLOAD_VOTE]: (payload, conn): void => {
         const votedUsername = masterPeerIdentity.findNameByPeer(conn.peer)
         if (votedUsername) {
             roomState.voteUser({
@@ -70,6 +69,7 @@ export const onConnectMaster = (conn: Peer.DataConnection): void => {
             roomState.removeUser(leftUser)
         }
     })
+    conn.on('error', onError)
 }
 
 export const onVoteMaster = (vote: number): void =>

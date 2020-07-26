@@ -10,10 +10,15 @@ const NamePromptContainer: FunctionalComponent<NamePromptContainerInterface> = (
     setUsername,
 }: NamePromptContainerInterface) => {
     const [modalUsername, setModalUsername] = useState<string>('')
+    const [error, setError] = useState<string>('')
     const [isDisabled, setDisabled] = useState<boolean>(false)
     const onSubmit = (): void => {
-        setDisabled(true)
-        setUsername(modalUsername)
+        if (modalUsername.length > 0) {
+            setDisabled(true)
+            setUsername(modalUsername)
+        } else {
+            setError(`Name can't be blank!`)
+        }
     }
     return (
         <NamePromptModalComponent
@@ -22,6 +27,7 @@ const NamePromptContainer: FunctionalComponent<NamePromptContainerInterface> = (
             onNameSubmit={onSubmit}
             isOpen
             isBtnDisabled={isDisabled}
+            error={error}
         />
     )
 }

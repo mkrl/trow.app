@@ -6,6 +6,7 @@ import masterPeerIdentity from './identity/masterPeerIdentity'
 import slavePeerIdentity from './identity/slavePeerIdentity'
 import logService from '../logService'
 import roomState from '../roomState/roomStateService'
+import errorService from '../errorService'
 
 interface CreateRoomInterface {
     name: string
@@ -18,6 +19,8 @@ interface JoinRoomInterface {
     callback: (id: string) => void
 }
 
+export const onError = (error: string): void => errorService.setError(error)
+
 export const createRoom = ({ name, callback }: CreateRoomInterface): void => {
     const peer = new Peer({ ...peerConfig })
     peer.on('open', (id: string) => {
@@ -29,6 +32,7 @@ export const createRoom = ({ name, callback }: CreateRoomInterface): void => {
         callback(id)
     })
     peer.on('connection', onConnectMaster)
+    peer.on('error', onError)
 }
 
 export const joinRoom = ({
@@ -39,10 +43,11 @@ export const joinRoom = ({
     const peer = new Peer({ ...peerConfig })
     peer.on('open', (id: string) => {
         logService.log('Connected with id ', id)
-        const conn = peer.connect(roomId)
+        const conn = peer.connect(roomId, { reliable: true })
         slavePeerIdentity.setPeerId(id)
         slavePeerIdentity.setName(name)
         callback(id)
         onConnectSlave(conn)
     })
+    peer.on('error', onError)
 }

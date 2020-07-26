@@ -6,6 +6,7 @@ import {
     h,
 } from 'preact'
 import * as style from './style.css'
+import ErrorContainer from '../../../containers/ErrorContainer'
 
 interface LayoutInterface {
     children: ComponentChildren
@@ -18,6 +19,7 @@ const LayoutComponent: FunctionalComponent<LayoutInterface> = ({
 }: LayoutInterface) => (
     <Fragment>
         <HeaderComponent />
+        <ErrorContainer />
         <main className={style.home}>{children}</main>
     </Fragment>
 )
