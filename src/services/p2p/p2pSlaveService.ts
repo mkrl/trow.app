@@ -5,10 +5,10 @@ import {
     PAYLOAD_STATE_BROADCAST,
 } from '../../constants/p2pPayloadConstants'
 import {
-    PayloadContent,
-    PayloadInterface,
     sendHandshake,
     voteSlave,
+    PayloadContent,
+    PayloadInterface,
 } from './payloadService'
 import slavePeerIdentity from './identity/slavePeerIdentity'
 import Peer from 'peerjs'

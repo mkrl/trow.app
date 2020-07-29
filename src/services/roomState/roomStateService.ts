@@ -18,7 +18,6 @@ type UIUpdater = (state: string) => void
 interface RoomStateInterface {
     getState: () => P2PStateInterface
     getUserNames: () => Array<string>
-    getNameByPeerId: (name: string) => string | undefined
     removeUser: (name: string | undefined) => void
     addUser: (name: string) => void
     voteUser: ({ name, voteRating }: P2PStateUserInterface) => void
@@ -103,12 +102,6 @@ const roomState = ((): RoomStateInterface => {
         currentRoomState.votingStarted = true
         _updateUIState(currentRoomState)
     }
-    const _getNameByPeerId = (name: string): string | undefined => {
-        const foundUser = currentRoomState.users.find(
-            user => user.name === name
-        )
-        return foundUser ? foundUser.name : undefined
-    }
     const _getUserNames = (): Array<string> => {
         return currentRoomState.users.map(user => user.name)
     }
@@ -119,7 +112,6 @@ const roomState = ((): RoomStateInterface => {
     return {
         getState: (): P2PStateInterface => currentRoomState,
         getUserNames: _getUserNames,
-        getNameByPeerId: _getNameByPeerId,
         removeUser: _removeUser,
         addUser: _addUser,
         voteUser: _voteUser,

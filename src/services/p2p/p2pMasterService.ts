@@ -1,9 +1,9 @@
 import {
     broadcastData,
     nameReject,
+    sendHandshake,
     PayloadContent,
     PayloadInterface,
-    sendHandshake,
 } from './payloadService'
 import logService from '../logService'
 import {
@@ -63,7 +63,7 @@ export const onConnectMaster = (conn: Peer.DataConnection): void => {
         })
     })
     conn.on('close', () => {
-        const leftUser = roomState.getNameByPeerId(conn.peer)
+        const leftUser = masterPeerIdentity.findNameByPeer(conn.peer)
         if (leftUser) {
             logService.log('Disconnected slave ', leftUser)
             roomState.removeUser(leftUser)
