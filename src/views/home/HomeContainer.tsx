@@ -7,6 +7,7 @@ import {
     APP_VIEW_NAME_PROMPT,
 } from '../../constants/appViewConstants'
 import ViewMapperContainer from '../../containers/ViewMapperContainer'
+import onPageLeave from '../../helpers/pageLeaveHelper'
 
 const HomeContainer: FunctionalComponent = () => {
     const roomId = window.location.search.slice(1)
@@ -43,11 +44,14 @@ const HomeContainer: FunctionalComponent = () => {
             } else {
                 onCreateRoom()
             }
+            window.addEventListener('beforeunload', onPageLeave)
         } else {
             if (!isHost) {
                 setActiveView(APP_VIEW_NAME_PROMPT)
             }
         }
+        return (): void =>
+            window.removeEventListener('beforeunload', onPageLeave)
     }, [isHost, userName, roomId])
     return (
         <ViewMapperContainer
