@@ -1,15 +1,15 @@
 .header {
 	width: 100%;
-	padding: 1vw 4vw;
+	padding: 1vw 2vw;
 	display: flex;
 }
 
-.header h1 {
-	margin: 0;
-	font-size: 24px;
-	line-height: 56px;
-	font-weight: 400;
-	color: var(--color-dark-1);
+.header > div {
+	background-image: url("./logo.svg");
+	height: 55px;
+	width: 38px;
+	background-repeat: no-repeat;
+	background-size: contain;
 }
 
 @media screen and (max-width: 768px) {
