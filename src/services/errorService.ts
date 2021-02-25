@@ -8,7 +8,7 @@ const ERROR_TIMEOUT = 8000
 
 interface ErrorServiceInterface {
     setErrorUpdater: (updater: ErrorUpdater) => void
-    setError: (newError: Error) => void
+    setError: (newError: Error, keepOnScreen?: boolean) => void
 }
 
 const errorService = ((): ErrorServiceInterface => {
@@ -25,10 +25,12 @@ const errorService = ((): ErrorServiceInterface => {
         )
     }
 
-    const _setError = (newError: Error): void => {
+    const _setError = (newError: Error, keepOnScreen?: boolean): void => {
         window.clearTimeout(errorTimeout)
         errorUpdater(newError)
-        _clearError(newError)
+        if (!keepOnScreen) {
+            _clearError(newError)
+        }
     }
     const _setErrorUpdater = (newUpdater: ErrorUpdater): void => {
         errorUpdater = newUpdater

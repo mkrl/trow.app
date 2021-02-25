@@ -1,5 +1,6 @@
 export const PAYLOAD_HANDSHAKE_REQUEST = 'payload:HandshakeRequest'
 export const PAYLOAD_HANDSHAKE_RESPONSE = 'payload:HandshakeResponse'
 export const PAYLOAD_NAME_REJECT = 'payload:NameReject'
+export const PAYLOAD_KICK_NOTICE = 'payload:KickNotice'
 export const PAYLOAD_STATE_BROADCAST = 'payload:StateBroadcast'
 export const PAYLOAD_VOTE = 'payload:Vote'

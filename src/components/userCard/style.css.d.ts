@@ -3,6 +3,7 @@ declare namespace StyleCssNamespace {
     export interface IStyleCss {
         avatar: string
         jump: string
+        kick: string
         pop: string
         pulse: string
         pulseVoted: string

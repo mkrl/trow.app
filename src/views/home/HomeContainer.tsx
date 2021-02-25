@@ -43,8 +43,8 @@ const HomeContainer: FunctionalComponent = () => {
                 onJoinRoom()
             } else {
                 onCreateRoom()
+                window.addEventListener('beforeunload', onPageLeave)
             }
-            window.addEventListener('beforeunload', onPageLeave)
         } else {
             if (!isHost) {
                 setActiveView(APP_VIEW_NAME_PROMPT)

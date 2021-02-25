@@ -35,7 +35,7 @@ const initialRoomState: P2PStateInterface = {
 
 const roomState = ((): RoomStateInterface => {
     let currentRoomState = initialRoomState
-    let isUpdateHost = false
+    let isCurrentUserHost = false
     let stateUIUpdater: UIUpdater = state => {
         logService.log(
             'Got a state update while not yet being subscribed to UI state: ',
@@ -44,7 +44,7 @@ const roomState = ((): RoomStateInterface => {
     }
     const _updateUIState = (newState: P2PStateInterface): void => {
         stateUIUpdater(JSON.stringify(newState))
-        if (isUpdateHost) {
+        if (isCurrentUserHost) {
             broadcastData({
                 data: newState,
             })
@@ -52,7 +52,7 @@ const roomState = ((): RoomStateInterface => {
     }
     const _setUIUpdater = (updater: UIUpdater, isHost: boolean): void => {
         stateUIUpdater = updater
-        isUpdateHost = isHost
+        isCurrentUserHost = isHost
     }
     const _removeUser = (name: string | undefined): void => {
         if (name) {

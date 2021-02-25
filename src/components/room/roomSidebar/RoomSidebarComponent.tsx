@@ -6,11 +6,13 @@ import UserCard from '../../userCard/UserCardElement'
 interface RoomSidebarComponentInterface {
     users: Array<P2PStateUserInterface>
     votingStarted: boolean
+    onKick?: (name: string) => void
 }
 
 const UsersMapComponent: FunctionalComponent<RoomSidebarComponentInterface> = ({
     users,
     votingStarted,
+    onKick,
 }: RoomSidebarComponentInterface) => (
     <Fragment>
         {users.map(user => (
@@ -21,6 +23,7 @@ const UsersMapComponent: FunctionalComponent<RoomSidebarComponentInterface> = ({
                 isVoted={user.voteRating !== -1}
                 score={user.voteRating}
                 votingStarted={votingStarted}
+                onKick={onKick}
             />
         ))}
     </Fragment>
@@ -29,9 +32,14 @@ const UsersMapComponent: FunctionalComponent<RoomSidebarComponentInterface> = ({
 const RoomSidebarComponent: FunctionalComponent<RoomSidebarComponentInterface> = ({
     users,
     votingStarted,
+    onKick,
 }: RoomSidebarComponentInterface) => (
     <BoxElement flexDirection="column" justifyContent="start">
-        <UsersMapComponent users={users} votingStarted={votingStarted} />
+        <UsersMapComponent
+            onKick={onKick}
+            users={users}
+            votingStarted={votingStarted}
+        />
     </BoxElement>
 )
 

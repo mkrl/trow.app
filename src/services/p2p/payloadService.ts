@@ -1,13 +1,14 @@
 import {
     PAYLOAD_HANDSHAKE_REQUEST,
     PAYLOAD_HANDSHAKE_RESPONSE,
+    PAYLOAD_KICK_NOTICE,
     PAYLOAD_NAME_REJECT,
     PAYLOAD_STATE_BROADCAST,
     PAYLOAD_VOTE,
 } from '../../constants/p2pPayloadConstants'
 import logService from '../logService'
 import Peer from 'peerjs'
-import { P2PStateInterface } from '../roomState/roomStateService'
+import roomState, { P2PStateInterface } from '../roomState/roomStateService'
 import masterPeerIdentity from './identity/masterPeerIdentity'
 import slavePeerIdentity from './identity/slavePeerIdentity'
 
@@ -83,4 +84,19 @@ export const nameReject = (
         payload: data.name,
     })
     setTimeout(() => conn.close(), 2000)
+}
+
+export const kickUser = (username: string): void => {
+    const peer = masterPeerIdentity.getPeerRef()
+    const peerIdToKick = masterPeerIdentity.findPeerByName(username)
+    if (peerIdToKick) {
+        const connection = peer.connections[peerIdToKick][0]
+        if (connection) {
+            roomState.removeUser(username)
+            connection.send({
+                type: PAYLOAD_KICK_NOTICE,
+            })
+            setTimeout(() => connection.close(), 2000)
+        }
+    }
 }

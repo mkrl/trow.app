@@ -1,6 +1,7 @@
 import logService from '../logService'
 import {
     PAYLOAD_HANDSHAKE_REQUEST,
+    PAYLOAD_KICK_NOTICE,
     PAYLOAD_NAME_REJECT,
     PAYLOAD_STATE_BROADCAST,
 } from '../../constants/p2pPayloadConstants'
@@ -15,6 +16,7 @@ import Peer from 'peerjs'
 import roomState from '../roomState/roomStateService'
 import { onError } from './p2pService'
 import errorService from '../errorService'
+import onPageLeave from '../../helpers/pageLeaveHelper'
 
 interface ActionMapInterface {
     [key: string]: (payload: PayloadContent, conn: Peer.DataConnection) => void
@@ -40,6 +42,12 @@ const SLAVE_ACTION_MAP: ActionMapInterface = {
             window.location.reload()
         }, 5000)
     },
+    [PAYLOAD_KICK_NOTICE]: (payload, conn): void => {
+        errorService.setError('You have been kicked from the room', true)
+        setTimeout(() => {
+            conn.close()
+        }, 5000)
+    },
 }
 
 export const onConnectSlave = (conn: Peer.DataConnection): void => {
@@ -57,6 +65,10 @@ export const onConnectSlave = (conn: Peer.DataConnection): void => {
         slavePeerIdentity.setMasterRef(conn)
     })
     conn.on('error', onError)
+    window.addEventListener('beforeunload', e => {
+        conn.close()
+        onPageLeave(e)
+    })
 }
 
 export const onVoteSlave = (vote: number): void => voteSlave(vote)

@@ -1,5 +1,5 @@
 .error {
-    background-color: tomato;
+    background-color: var(--color-danger);
     color: var(--color-light-1);
     font-size: var(--l-font-size);
     font-weight: bold;
