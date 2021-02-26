@@ -3,6 +3,7 @@
     cursor: pointer;
     background-color: var(--color-brand);
     color: var(--color-light-1);
+    font-family: var(--base-font-family);
     font-weight: bold;
     border: 0;
 }
@@ -22,7 +23,7 @@
 }
 
 .button:hover {
-    box-shadow: var(--color-brand) 0 0 0 2px;
+    opacity: 0.9;
 }
 
 .block {
@@ -35,7 +36,7 @@
 
 .button.md {
     font-size: var(--base-font-size);
-    padding: 10px 16px;
+    padding: 10px 20px;
 }
 
 .button.l {
@@ -44,4 +45,10 @@
 
 .button.xl {
     font-size: var(--xl-font-size);
+    padding: 20px 40px;
+    transition: transform 0.1s ease-in;
+}
+
+.button.xl:hover {
+    transform: rotate(-2deg);
 }

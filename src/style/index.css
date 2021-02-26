@@ -14,15 +14,16 @@
 	--color-dark-3: #777777;
 
 	/* Font sizes */
-	--base-font-size: 16px;
+	--base-font-size: 18px;
 	--sm-font-size: 14px;
 	--l-font-size: 18px;
 	--xl-font-size: 24px;
 
-	/* Border radius */
-	--base-border-radius: 17px;
-}
+	--base-font-family: 'Rubik', Arial, sans-serif;
 
+	/* Border radius */
+	--base-border-radius: 35px;
+}
 
 html, body {
 	height: 100%;
@@ -30,7 +31,7 @@ html, body {
 	padding: 0;
 	margin: 0;
 	background: #FAFAFA;
-	font-family: 'Helvetica Neue', arial, sans-serif;
+	font-family: var(--base-font-family);
 	font-weight: 400;
 	font-size: var(--base-font-size);
 	color: 	var(--color-dark-1);

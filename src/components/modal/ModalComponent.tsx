@@ -1,5 +1,4 @@
 import { FunctionalComponent, h, ComponentChildren } from 'preact'
-// import { useEffect } from 'preact/hooks'
 import * as style from './style.css'
 import cn from 'classnames'
 

@@ -38,7 +38,7 @@
 .title {
     margin: 0;
     font-size: var(--xl-font-size);
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
 @keyframes appear {
