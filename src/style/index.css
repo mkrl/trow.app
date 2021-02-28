@@ -23,6 +23,9 @@
 
 	/* Border radius */
 	--base-border-radius: 35px;
+
+	/* Shadows */
+	--base-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
 }
 
 html, body {
@@ -30,7 +33,7 @@ html, body {
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background: #FAFAFA;
+	background: var(--color-light-1);
 	font-family: var(--base-font-family);
 	font-weight: 400;
 	font-size: var(--base-font-size);

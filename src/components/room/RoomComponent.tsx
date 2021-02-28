@@ -7,6 +7,7 @@ import ButtonElement from '../elements/button/ButtonElement'
 import RangeContainer from '../../containers/RangeContainer'
 import BoxElement from '../elements/box/BoxElement'
 import VoteResultComponent from '../voteResult/VoteResultComponent'
+import SeparatorElement from '../elements/separator/SeparatorElement'
 
 interface RoomComponentInterface {
     isHost: boolean
@@ -32,7 +33,10 @@ const RoomComponent: FunctionalComponent<RoomType> = ({
 }: RoomType) => (
     <RoomLayout SidebarComponent={Sidebar}>
         {isHost && !votingStarted && !previouslyVoted && (
-            <p>You are the host. Feel free to share the link to your room.</p>
+            <p>
+                You are the host. Invite other participants to join the session
+                via this invite link.
+            </p>
         )}
         {isHost && !votingStarted && (
             <Fragment>
@@ -45,12 +49,13 @@ const RoomComponent: FunctionalComponent<RoomType> = ({
                     />
                     <ButtonElement onClick={onCopyClick}>Copy</ButtonElement>
                 </ControlGroupElement>
+                <SeparatorElement />
             </Fragment>
         )}
         {!isHost && !votingStarted && !previouslyVoted && (
             <p>
-                Sit back and relax. You are all set. Waiting for the host to
-                start.
+                Sit back and relax! You are all set. Waiting for the host to
+                start the session.
             </p>
         )}
         {votingStarted && <RangeContainer onSubmitVote={onSubmitVote} />}
@@ -64,7 +69,7 @@ const RoomComponent: FunctionalComponent<RoomType> = ({
                 justifyContent="center"
                 flexDirection="column"
             >
-                <ButtonElement onClick={onStartClick}>
+                <ButtonElement size="l" onClick={onStartClick}>
                     {previouslyVoted ? 'Start again' : 'Start'}
                 </ButtonElement>
             </BoxElement>

@@ -1,8 +1,8 @@
 .container {
     background-color: var(--color-light-2);
     border-radius: var(--base-border-radius);
+    box-shadow: var(--base-shadow);
     overflow: hidden;
-    border: 1px #ababab solid;
     min-height: 50vh;
     display: flex;
     flex-direction: column;
@@ -23,8 +23,8 @@
 .rangeContainer {
     background-color: var(--color-light-1);
     width: 100%;
-    padding: 1vw 0;
-    box-shadow: 0 -1px 17px 5px #0000002e;
+    padding-top: 1vh;
+    box-shadow: 0 -7px 35px 5px #0000002e;
     position: relative;
 }
 

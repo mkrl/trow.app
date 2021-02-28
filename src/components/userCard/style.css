@@ -35,10 +35,10 @@
     background-color: var(--color-dark-3);
     color: var(--color-light-1);
     padding: 0.7rem;
-    border-radius: var(--base-border-radius);
+    border-radius: 20px;
     position: absolute;
     top: -32px;
-    left: 62px;
+    left: 35px;
 }
 
 .kick {
@@ -66,7 +66,7 @@
     content: '';
     position: absolute;
     bottom: -6px;
-    left: 12px;
+    left: 18px;
     width: 0;
     height: 0;
     border-left: 7px solid transparent;

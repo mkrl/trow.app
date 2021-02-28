@@ -4,14 +4,6 @@
 	display: flex;
 }
 
-.header > div {
-	background-image: url("./logo.svg");
-	height: 55px;
-	width: 38px;
-	background-repeat: no-repeat;
-	background-size: contain;
-}
-
 @media screen and (max-width: 768px) {
 	.header {
 		display: none;

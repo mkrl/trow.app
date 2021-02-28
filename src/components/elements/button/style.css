@@ -41,6 +41,8 @@
 
 .button.l {
     font-size: var(--l-font-size);
+    padding: 12px 26px;
+    transition: transform 0.1s ease-in;
 }
 
 .button.xl {
@@ -49,6 +51,6 @@
     transition: transform 0.1s ease-in;
 }
 
-.button.xl:hover {
+.button.xl:hover, .button.l:hover {
     transform: rotate(-2deg);
 }

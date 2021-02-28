@@ -1,0 +1,29 @@
+.logo {
+	background-image: url("./logo.svg");
+	height: 57px;
+	width: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.logo:hover, .spinner {
+	animation-name: spinner;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: 1;
+	animation-duration: 1.5s;
+	transform-style: preserve-3d;
+}
+
+.spinner {
+	animation-iteration-count: infinite;
+	animation-duration: 2s;
+}
+
+@keyframes spinner {
+	from {
+		transform: rotateY(0deg);
+	}
+	to {
+		transform: rotateY(-360deg);
+	}
+}

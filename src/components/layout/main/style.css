@@ -3,3 +3,10 @@
 	height: calc(100% - 5vw);
 	width: 100%;
 }
+
+
+@media screen and (max-width: 768px) {
+	.home {
+		height: 100%;
+	}
+}

@@ -13,13 +13,6 @@ const ModalComponent: FunctionalComponent<ModalComponentInterface> = ({
     children,
     title,
 }: ModalComponentInterface) => {
-    // useEffect(() => {
-    //     if (isOpen) {
-    //         document.body.classList.add(style.modalOpen)
-    //     } else {
-    //         document.body.classList.remove(style.modalOpen)
-    //     }
-    // }, [isOpen])
     return (
         <div class={cn(style.backdrop, isOpen && style.open)}>
             <section className={cn(style.modal, isOpen && style.open)}>
