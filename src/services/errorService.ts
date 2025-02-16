@@ -4,7 +4,7 @@ export type Error = string | null
 
 type ErrorUpdater = (state: Error) => void
 
-const ERROR_TIMEOUT = 8000
+const ERROR_TIMEOUT = 12000
 
 interface ErrorServiceInterface {
     setErrorUpdater: (updater: ErrorUpdater) => void
