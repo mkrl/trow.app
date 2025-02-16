@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from 'preact'
 import cn from 'classnames'
-import * as style from './style.css'
+import style from './style.module.css'
 
 type Props = {
     isSpinner?: boolean

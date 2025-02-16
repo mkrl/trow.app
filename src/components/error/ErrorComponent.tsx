@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from 'preact'
-import * as style from './style.css'
+import style from './style.module.css'
 import { Error } from '../../services/errorService'
 
 type ErrorComponent = {

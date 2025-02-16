@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Console } from 'console'
-
-const isDebug = window.location.host.includes('debug')
+const isDebug = typeof window !== 'undefined' ? window.location.host.includes('debug') : false
 type CallbackTypes = Console['log'] | Console['warn'] | Console['error']
 
 const baseLog = (callback: CallbackTypes, ...args: any[]): void => {
-    if (process.env.NODE_ENV === 'development' || isDebug) callback(...args)
+    if (import.meta.env.PROD === false || isDebug) callback(...args)
 }
 
 export default {

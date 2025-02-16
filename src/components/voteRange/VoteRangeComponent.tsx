@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from 'preact'
-import * as style from './style.css'
+import style from './style.module.css'
 import RangeElement from '../elements/range/RangeElement'
 import ButtonElement from '../elements/button/ButtonElement'
 

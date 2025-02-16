@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from 'preact'
-import * as style from './style.css'
+import style from './style.module.css'
 
 // eslint-disable-next-line react/prop-types
 const ControlGroupElement: FunctionalComponent = ({ children }) => (

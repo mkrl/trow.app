@@ -1,14 +1,7 @@
-const isDevelopment = process.env.NODE_ENV === 'development'
+const DEFAULT_PEERJS_SERVER = '0.peerjs.com'
 
-const DEV_CONFIG = {
-    host: 'localhost',
-    port: 9000,
+const peerConfig = {
+    host: import.meta.env.VITE_PEERJS_SERVER ?? DEFAULT_PEERJS_SERVER,
 }
-
-const PROD_CONFIG = {
-    host: process.env.PEERJS_SERVER,
-}
-
-const peerConfig = isDevelopment ? DEV_CONFIG : PROD_CONFIG
 
 export default peerConfig

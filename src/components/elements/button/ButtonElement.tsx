@@ -1,5 +1,5 @@
 import { FunctionalComponent, ComponentChild, h } from 'preact'
-import * as style from './style.css'
+import style from './style.module.css'
 import cn from 'classnames'
 
 interface ButtonElementInterface {

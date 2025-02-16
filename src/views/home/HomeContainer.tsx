@@ -10,7 +10,7 @@ import ViewMapperContainer from '../../containers/ViewMapperContainer'
 import onPageLeave from '../../helpers/pageLeaveHelper'
 
 const HomeContainer: FunctionalComponent = () => {
-    const roomId = window.location.search.slice(1)
+    const roomId = typeof window !== 'undefined' ? window.location.search.slice(1) : ''
     const isHost = roomId.length === 0
     const [peerId, setPeerId] = useState<string>('')
     const [activeView, setActiveView] = useState<string>(APP_VIEW_INDEX)
