@@ -1,24 +1,24 @@
-import Peer from 'peerjs'
+import type { DataConnection } from 'peerjs'
 
 interface IdentityInterface {
     setName: (newName: string) => void
     setPeerId: (newPeer: string) => void
-    setMasterRef: (newConn: Peer.DataConnection) => void
+    setHostRef: (newConn: DataConnection) => void
     getName: () => string
     getPeerId: () => string
-    getMasterRef: () => Peer.DataConnection
+    getHostRef: () => DataConnection
 }
 
-const slavePeerIdentity = ((): IdentityInterface => {
+const clientPeerIdentity = ((): IdentityInterface => {
     let peerId: string
-    let peerMasterRef: Peer.DataConnection
+    let peerHostRef: DataConnection
     let name: string
 
     const _setName = (newName: string): void => {
         name = newName
     }
-    const _setPeerRef = (newConn: Peer.DataConnection): void => {
-        peerMasterRef = newConn
+    const _setPeerRef = (newConn: DataConnection): void => {
+        peerHostRef = newConn
     }
     const _setPeerId = (newID: string): void => {
         peerId = newID
@@ -26,11 +26,11 @@ const slavePeerIdentity = ((): IdentityInterface => {
     return {
         setName: _setName,
         setPeerId: _setPeerId,
-        setMasterRef: _setPeerRef,
+        setHostRef: _setPeerRef,
         getName: (): string => name,
         getPeerId: (): string => peerId,
-        getMasterRef: (): Peer.DataConnection => peerMasterRef,
+        getHostRef: (): DataConnection => peerHostRef,
     }
 })()
 
-export default slavePeerIdentity
+export default clientPeerIdentity

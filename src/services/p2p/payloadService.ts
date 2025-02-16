@@ -7,10 +7,10 @@ import {
     PAYLOAD_VOTE,
 } from '../../constants/p2pPayloadConstants'
 import logService from '../logService'
-import Peer from 'peerjs'
+import type { DataConnection } from 'peerjs'
 import roomState, { P2PStateInterface } from '../roomState/roomStateService'
-import masterPeerIdentity from './identity/masterPeerIdentity'
-import slavePeerIdentity from './identity/slavePeerIdentity'
+import hostPeerIdentity from './identity/hostPeerIdentity'
+import clientPeerIdentity from './identity/clientPeerIdentity'
 
 type PayloadFields = 'name' | 'peerId'
 
@@ -25,7 +25,7 @@ export interface PayloadInterface {
 }
 
 interface SendHandshakeInterface {
-    conn: Peer.DataConnection
+    conn: DataConnection
     name: string
     peerId: string
     isHost?: boolean
@@ -51,9 +51,9 @@ export const sendHandshake = ({
 }
 
 export const broadcastData = ({ data }: BroadcastInterface): void => {
-    // This can later be changed if need for slave broadcasting is introduced
-    const peer = masterPeerIdentity.getPeerRef()
-    const connections = masterPeerIdentity.getConnections()
+    // This can later be changed if a need for client peer broadcasting is introduced
+    const peer = hostPeerIdentity.getPeerRef()
+    const connections = hostPeerIdentity.getConnections()
     connections.map(item => {
         const connection = peer.connections[item.peerId][0]
         if (connection) {
@@ -65,9 +65,9 @@ export const broadcastData = ({ data }: BroadcastInterface): void => {
     })
 }
 
-export const voteSlave = (newVote: number): void => {
+export const voteClient = (newVote: number): void => {
     logService.log(`Sent vote payload to host: ${newVote}`)
-    const conn = slavePeerIdentity.getMasterRef()
+    const conn = clientPeerIdentity.getHostRef()
     conn.send({
         type: PAYLOAD_VOTE,
         payload: newVote,
@@ -76,7 +76,7 @@ export const voteSlave = (newVote: number): void => {
 
 export const nameReject = (
     data: PayloadContent,
-    conn: Peer.DataConnection
+    conn: DataConnection
 ): void => {
     logService.error('Name is already is use: ', data)
     conn.send({
@@ -87,8 +87,8 @@ export const nameReject = (
 }
 
 export const kickUser = (username: string): void => {
-    const peer = masterPeerIdentity.getPeerRef()
-    const peerIdToKick = masterPeerIdentity.findPeerByName(username)
+    const peer = hostPeerIdentity.getPeerRef()
+    const peerIdToKick = hostPeerIdentity.findPeerByName(username)
     if (peerIdToKick) {
         const connection = peer.connections[peerIdToKick][0]
         if (connection) {

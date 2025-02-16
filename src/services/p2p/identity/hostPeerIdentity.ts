@@ -1,4 +1,4 @@
-import Peer from 'peerjs'
+import type Peer from 'peerjs'
 import roomState from '../../roomState/roomStateService'
 
 export interface ConnectionInterface {
@@ -22,7 +22,7 @@ interface IdentityInterface {
     findPeerByName: (name: string) => string | undefined
 }
 
-const masterPeerIdentity = ((): IdentityInterface => {
+const hostPeerIdentity = ((): IdentityInterface => {
     let peerId: string
     let peerRef: Peer
     let name: string
@@ -43,7 +43,7 @@ const masterPeerIdentity = ((): IdentityInterface => {
         if (
             !users.includes(name) &&
             name !== '' &&
-            name !== masterPeerIdentity.getName()
+            name !== hostPeerIdentity.getName()
         ) {
             connections.push(connection)
             roomState.addUser(name)
@@ -88,4 +88,4 @@ const masterPeerIdentity = ((): IdentityInterface => {
     }
 })()
 
-export default masterPeerIdentity
+export default hostPeerIdentity

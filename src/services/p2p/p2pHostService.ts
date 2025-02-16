@@ -10,18 +10,18 @@ import {
     PAYLOAD_HANDSHAKE_RESPONSE,
     PAYLOAD_VOTE,
 } from '../../constants/p2pPayloadConstants'
-import masterPeerIdentity from './identity/masterPeerIdentity'
-import Peer from 'peerjs'
+import hostPeerIdentity from './identity/hostPeerIdentity'
+import type { DataConnection } from 'peerjs'
 import roomState from '../roomState/roomStateService'
 import { onError } from './p2pService'
 
 interface ActionMapInterface {
-    [key: string]: (payload: PayloadContent, conn: Peer.DataConnection) => void
+    [key: string]: (payload: PayloadContent, conn: DataConnection) => void
 }
 
-const MASTER_ACTION_MAP: ActionMapInterface = {
+const HOST_ACTION_MAP: ActionMapInterface = {
     [PAYLOAD_HANDSHAKE_RESPONSE]: (payload, conn): void => {
-        if (masterPeerIdentity.addConnection(payload)) {
+        if (hostPeerIdentity.addConnection(payload)) {
             broadcastData({
                 data: roomState.getState(),
             })
@@ -30,7 +30,7 @@ const MASTER_ACTION_MAP: ActionMapInterface = {
         }
     },
     [PAYLOAD_VOTE]: (payload, conn): void => {
-        const votedUsername = masterPeerIdentity.findNameByPeer(conn.peer)
+        const votedUsername = hostPeerIdentity.findNameByPeer(conn.peer)
         if (votedUsername) {
             roomState.voteUser({
                 name: votedUsername,
@@ -40,10 +40,10 @@ const MASTER_ACTION_MAP: ActionMapInterface = {
     },
 }
 
-export const onConnectMaster = (conn: Peer.DataConnection): void => {
+export const onConnectHost = (conn: DataConnection): void => {
     conn.on('data', (data: PayloadInterface) => {
         logService.log(`Id ${conn.peer} sent `, data)
-        const callback = MASTER_ACTION_MAP[data.type]
+        const callback = HOST_ACTION_MAP[data.type]
         if (typeof callback !== 'function') {
             logService.error(
                 `Got unrecognized data from ${conn.peer}, containing:`,
@@ -54,26 +54,26 @@ export const onConnectMaster = (conn: Peer.DataConnection): void => {
         }
     })
     conn.on('open', () => {
-        logService.log('New slave connection with id ', conn.peer)
+        logService.log('New client connection with id ', conn.peer)
         sendHandshake({
             conn,
-            name: masterPeerIdentity.getName(),
-            peerId: masterPeerIdentity.getPeerId(),
+            name: hostPeerIdentity.getName(),
+            peerId: hostPeerIdentity.getPeerId(),
             isHost: true,
         })
     })
     conn.on('close', () => {
-        const leftUser = masterPeerIdentity.findNameByPeer(conn.peer)
+        const leftUser = hostPeerIdentity.findNameByPeer(conn.peer)
         if (leftUser) {
-            logService.log('Disconnected slave ', leftUser)
+            logService.log('Disconnected client ', leftUser)
             roomState.removeUser(leftUser)
         }
     })
     conn.on('error', onError)
 }
 
-export const onVoteMaster = (vote: number): void =>
+export const onVoteHost = (vote: number): void =>
     roomState.voteUser({
-        name: masterPeerIdentity.getName(),
+        name: hostPeerIdentity.getName(),
         voteRating: vote,
     })

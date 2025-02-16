@@ -1,9 +1,9 @@
 import Peer from 'peerjs'
 import peerConfig from '../../config/peerConfig'
-import { onConnectMaster } from './p2pMasterService'
-import { onConnectSlave } from './p2pSlaveService'
-import masterPeerIdentity from './identity/masterPeerIdentity'
-import slavePeerIdentity from './identity/slavePeerIdentity'
+import { onConnectHost } from './p2pHostService'
+import { onConnectClient } from './p2pClientService'
+import hostPeerIdentity from './identity/hostPeerIdentity'
+import clientPeerIdentity from './identity/clientPeerIdentity'
 import logService from '../logService'
 import roomState from '../roomState/roomStateService'
 import errorService from '../errorService'
@@ -19,19 +19,19 @@ interface JoinRoomInterface {
     callback: (id: string) => void
 }
 
-export const onError = (error: string): void => errorService.setError(error)
+export const onError = (error: Error): void => errorService.setError(error.message)
 
 export const createRoom = ({ name, callback }: CreateRoomInterface): void => {
     const peer = new Peer({ ...peerConfig })
     peer.on('open', (id: string) => {
         logService.log('Connected with id ', id)
         roomState.addUser(name)
-        masterPeerIdentity.setPeerId(id)
-        masterPeerIdentity.setName(name)
-        masterPeerIdentity.setPeerRef(peer)
+        hostPeerIdentity.setPeerId(id)
+        hostPeerIdentity.setName(name)
+        hostPeerIdentity.setPeerRef(peer)
         callback(id)
     })
-    peer.on('connection', onConnectMaster)
+    peer.on('connection', onConnectHost)
     peer.on('error', onError)
 }
 
@@ -44,10 +44,10 @@ export const joinRoom = ({
     peer.on('open', (id: string) => {
         logService.log('Connected with id ', id)
         const conn = peer.connect(roomId, { reliable: true })
-        slavePeerIdentity.setPeerId(id)
-        slavePeerIdentity.setName(name)
+        clientPeerIdentity.setPeerId(id)
+        clientPeerIdentity.setName(name)
         callback(id)
-        onConnectSlave(conn)
+        onConnectClient(conn)
     })
     peer.on('error', onError)
 }

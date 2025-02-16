@@ -2,8 +2,8 @@ import { FunctionalComponent, h } from 'preact'
 import RoomComponent from '../../components/room/RoomComponent'
 import useRoomState from '../../hooks/useRoomState'
 import RoomSidebarComponent from '../../components/room/roomSidebar/RoomSidebarComponent'
-import { onVoteMaster } from '../../services/p2p/p2pMasterService'
-import { onVoteSlave } from '../../services/p2p/p2pSlaveService'
+import { onVoteHost } from '../../services/p2p/p2pHostService'
+import { onVoteClient } from '../../services/p2p/p2pClientService'
 import roomState from '../../services/roomState/roomStateService'
 import { kickUser } from '../../services/p2p/payloadService'
 
@@ -32,7 +32,7 @@ const RoomContainer: FunctionalComponent<RoomContainerType> = ({
         previouslyVoted ? roomState.restart() : roomState.setVotingStarted(true)
 
     const onSubmitVote = (vote: number): void =>
-        isHost ? onVoteMaster(vote) : onVoteSlave(vote)
+        isHost ? onVoteHost(vote) : onVoteClient(vote)
 
     const RoomSidebar: FunctionalComponent = () => (
         <RoomSidebarComponent

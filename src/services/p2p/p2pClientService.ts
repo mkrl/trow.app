@@ -7,27 +7,27 @@ import {
 } from '../../constants/p2pPayloadConstants'
 import {
     sendHandshake,
-    voteSlave,
+    voteClient,
     PayloadContent,
     PayloadInterface,
 } from './payloadService'
-import slavePeerIdentity from './identity/slavePeerIdentity'
-import Peer from 'peerjs'
+import clientPeerIdentity from './identity/clientPeerIdentity'
+import type { DataConnection } from 'peerjs'
 import roomState from '../roomState/roomStateService'
 import { onError } from './p2pService'
 import errorService from '../errorService'
 import onPageLeave from '../../helpers/pageLeaveHelper'
 
 interface ActionMapInterface {
-    [key: string]: (payload: PayloadContent, conn: Peer.DataConnection) => void
+    [key: string]: (payload: PayloadContent, conn: DataConnection) => void
 }
 
-const SLAVE_ACTION_MAP: ActionMapInterface = {
+const CLIENT_ACTION_MAP: ActionMapInterface = {
     [PAYLOAD_HANDSHAKE_REQUEST]: (payload, conn): void => {
         sendHandshake({
             conn,
-            name: slavePeerIdentity.getName(),
-            peerId: slavePeerIdentity.getPeerId(),
+            name: clientPeerIdentity.getName(),
+            peerId: clientPeerIdentity.getPeerId(),
         })
     },
     [PAYLOAD_STATE_BROADCAST]: (payload): void => {
@@ -50,10 +50,10 @@ const SLAVE_ACTION_MAP: ActionMapInterface = {
     },
 }
 
-export const onConnectSlave = (conn: Peer.DataConnection): void => {
+export const onConnectClient = (conn: DataConnection): void => {
     conn.on('data', (data: PayloadInterface) => {
         logService.log('Got ', data)
-        const callback = SLAVE_ACTION_MAP[data.type]
+        const callback = CLIENT_ACTION_MAP[data.type]
         if (typeof callback !== 'function') {
             logService.error('Got unrecognized data from host')
         } else {
@@ -62,7 +62,7 @@ export const onConnectSlave = (conn: Peer.DataConnection): void => {
     })
     conn.on('open', () => {
         logService.log('Connected to host ', conn.peer)
-        slavePeerIdentity.setMasterRef(conn)
+        clientPeerIdentity.setHostRef(conn)
     })
     conn.on('error', onError)
     window.addEventListener('beforeunload', e => {
@@ -71,4 +71,4 @@ export const onConnectSlave = (conn: Peer.DataConnection): void => {
     })
 }
 
-export const onVoteSlave = (vote: number): void => voteSlave(vote)
+export const onVoteClient = (vote: number): void => voteClient(vote)
